@@ -1,0 +1,2322 @@
+<!DOCTYPE html>
+<html lang="ru" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Районная газовая компания (РГК) — газификация частного сектора под ключ в Горячем Ключе и по всему Краснодарскому краю. Средняя стоимость 135 000 ₽. Документы, монтаж, котлы по оптовым ценам, собственное производство вентиляции 150–300 мм.">
+    <title>Районная газовая компания (РГК) — Газификация, подключение газа, догазификация</title>
+
+    <!-- SVG-фавикон вкладки браузера в стиле фирменного логотипа РГК -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'%3E%3Ccircle cx='200' cy='200' r='194' fill='%23002447'/%3E%3Ccircle cx='200' cy='200' r='178' fill='none' stroke='%238ED8FF' stroke-width='10'/%3E%3Cpath d='M168 290 C124 246 116 184 156 122 C158 142 167 156 177 166 C166 118 186 74 226 46 C214 82 224 106 248 138 C286 188 274 252 232 290 C252 246 250 198 214 156 C206 146 203 134 205 120 C186 144 182 184 198 222 C176 214 162 200 156 184 C146 218 152 256 168 290 Z' fill='%23FFFFFF'/%3E%3C/svg%3E">
+
+    <!-- Google Fonts: Oswald (для фирменного логотипа РГК) и Manrope (для интерфейса) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Oswald:wght@600;700&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Manrope', 'system-ui', 'sans-serif'],
+                        display: ['Manrope', 'system-ui', 'sans-serif'],
+                        logo: ['Oswald', 'Arial Narrow', 'sans-serif'],
+                    },
+                    colors: {
+                        gas: {
+                            bg: '#020B18',
+                            navy: '#00203F',
+                            logo: '#002447',
+                            surface: '#06152B',
+                            deep: '#0066FF',
+                            neon: '#00D4FF',
+                            sky: '#38BDF8',
+                            ring: '#8ED8FF',
+                            ice: '#E0F7FF',
+                        }
+                    },
+                    boxShadow: {
+                        'flame': '0 0 28px rgba(0, 212, 255, 0.28), 0 0 56px rgba(0, 102, 255, 0.18)',
+                        'flame-strong': '0 0 34px rgba(0, 212, 255, 0.48), 0 0 75px rgba(0, 102, 255, 0.34)',
+                        'card-glow': '0 14px 44px -10px rgba(0, 212, 255, 0.2)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Стили горящего голубого пламени, неоновых ореолов и glassmorphism -->
+    <style>
+        :root {
+            --bg-dark: #020B18;
+            --bg-navy: #00203F;
+            --neon-cyan: #00D4FF;
+            --neon-sky: #38BDF8;
+            --flame-ice: #E0F7FF;
+        }
+
+        html, body {
+            background-color: var(--bg-dark);
+            color: #F1F8FF;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Кастомный скроллбар */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #020B18;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #0066FF, #00D4FF);
+            border-radius: 999px;
+        }
+
+        /* Glassmorphism карточки */
+        .glass-card {
+            background: linear-gradient(145deg, rgba(6, 25, 52, 0.74), rgba(2, 13, 29, 0.9));
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(56, 189, 248, 0.18);
+            transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+                        border-color 0.35s ease,
+                        box-shadow 0.35s ease;
+        }
+
+        .glass-card:hover {
+            border-color: rgba(0, 212, 255, 0.56);
+            box-shadow: 0 16px 46px -10px rgba(0, 212, 255, 0.3),
+                        inset 0 1px 0 rgba(224, 247, 255, 0.22);
+            transform: translateY(-4px);
+        }
+
+        .glass-static {
+            background: linear-gradient(145deg, rgba(6, 25, 52, 0.78), rgba(2, 13, 29, 0.92));
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border: 1px solid rgba(56, 189, 248, 0.2);
+        }
+
+        /* Кнопка в стиле электрического голубого пламени */
+        .btn-flame {
+            position: relative;
+            background: linear-gradient(135deg, #0066FF 0%, #00B8FF 50%, #38E8FF 100%);
+            background-size: 180% 180%;
+            color: #021226;
+            font-weight: 800;
+            box-shadow: 0 8px 30px rgba(0, 212, 255, 0.38), inset 0 1px 1px rgba(255, 255, 255, 0.5);
+            transition: all 0.3s ease;
+        }
+
+        .btn-flame:hover:not(:disabled) {
+            background-position: 100% 0%;
+            box-shadow: 0 10px 40px rgba(0, 212, 255, 0.58), inset 0 1px 2px rgba(255, 255, 255, 0.7);
+            transform: translateY(-2px);
+        }
+
+        .btn-flame:disabled {
+            opacity: 0.72;
+            cursor: not-allowed;
+        }
+
+        /* Контурная стеклянная кнопка */
+        .btn-outline-flame {
+            background: rgba(2, 18, 38, 0.72);
+            border: 1px solid rgba(56, 189, 248, 0.42);
+            color: #E0F7FF;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .btn-outline-flame:hover {
+            background: rgba(0, 212, 255, 0.16);
+            border-color: #00D4FF;
+            box-shadow: 0 0 26px rgba(0, 212, 255, 0.32);
+            transform: translateY(-2px);
+        }
+
+        /* Градиентный текст голубого газа */
+        .text-flame-gradient {
+            background: linear-gradient(100deg, #FFFFFF 0%, #B8F0FF 42%, #38BDF8 74%, #00D4FF 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        /* Пульсация свечения вокруг фирменного круглого логотипа в Hero */
+        @keyframes heroLogoHalo {
+            0%, 100% {
+                transform: scale(1);
+                opacity: 0.62;
+            }
+            50% {
+                transform: scale(1.07);
+                opacity: 0.95;
+            }
+        }
+
+        @keyframes heroLogoFloat {
+            0%, 100% {
+                transform: translateY(0px);
+                filter: drop-shadow(0 0 26px rgba(0, 212, 255, 0.36));
+            }
+            50% {
+                transform: translateY(-6px);
+                filter: drop-shadow(0 0 42px rgba(142, 216, 255, 0.55));
+            }
+        }
+
+        .hero-logo-halo {
+            animation: heroLogoHalo 4.2s ease-in-out infinite;
+        }
+
+        .hero-logo-float {
+            animation: heroLogoFloat 5.2s ease-in-out infinite;
+        }
+
+        /* Мягкое фоновое свечение секций */
+        .ambient-orb {
+            position: absolute;
+            border-radius: 9999px;
+            pointer-events: none;
+            filter: blur(95px);
+            z-index: 0;
+        }
+
+        /* Появление при прокрутке */
+        .reveal {
+            opacity: 0;
+            transform: translateY(26px);
+            transition: opacity 0.72s cubic-bezier(0.22, 1, 0.36, 1),
+                        transform 0.72s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .reveal.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Соединительная неоновая линия этапов */
+        .step-connector {
+            background: linear-gradient(90deg, rgba(0,102,255,0.2) 0%, #00D4FF 35%, #8ED8FF 65%, rgba(0,102,255,0.2) 100%);
+            box-shadow: 0 0 16px rgba(0, 212, 255, 0.65);
+        }
+
+        /* Пульсация кольца у плавающей кнопки */
+        @keyframes pulseRing {
+            0% { transform: scale(0.95); opacity: 0.75; }
+            70% { transform: scale(1.45); opacity: 0; }
+            100% { transform: scale(1.45); opacity: 0; }
+        }
+
+        .pulse-ring::before {
+            content: '';
+            position: absolute;
+            inset: -4px;
+            border-radius: 9999px;
+            border: 2px solid #00D4FF;
+            animation: pulseRing 2.4s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+            pointer-events: none;
+        }
+
+        /* Активное состояние карточек калькулятора */
+        .calc-choice {
+            transition: all 0.25s ease;
+        }
+
+        .calc-choice.is-active {
+            background: linear-gradient(135deg, rgba(0, 102, 255, 0.24), rgba(0, 212, 255, 0.16));
+            border-color: rgba(0, 212, 255, 0.72);
+            box-shadow: 0 0 24px rgba(0, 212, 255, 0.2);
+            color: #FFFFFF;
+        }
+
+        /* Подсветка формы после переноса расчёта из калькулятора */
+        @keyframes formHighlight {
+            0% { box-shadow: 0 0 0 0 rgba(0, 212, 255, 0.75); border-color: #00D4FF; }
+            70% { box-shadow: 0 0 0 14px rgba(0, 212, 255, 0); border-color: #8ED8FF; }
+            100% { box-shadow: 0 0 0 0 rgba(0, 212, 255, 0); }
+        }
+
+        .form-flash {
+            animation: formHighlight 1.4s ease-out;
+        }
+
+        #toast-container {
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .hero-logo-halo, .hero-logo-float, .pulse-ring::before {
+                animation: none;
+            }
+            .reveal {
+                opacity: 1;
+                transform: none;
+                transition: none;
+            }
+        }
+    </style>
+</head>
+<body class="font-sans antialiased selection:bg-gas-neon/30 selection:text-white">
+
+    <!-- ==================== 1. ФИКСИРОВАННАЯ ШАПКА (STICKY) ==================== -->
+    <header id="main-header" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b border-transparent">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Фирменная круглая эмблема РГК (~54px) + название -->
+                <a href="#hero" class="flex items-center gap-3.5 group focus:outline-none">
+                    <div class="relative w-[54px] h-[54px] flex-shrink-0 transition-transform duration-300 group-hover:scale-105">
+                        <svg class="w-full h-full" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Эмблема РГК">
+                            <defs>
+                                <radialGradient id="hdrBgGrad" cx="50%" cy="46%" r="54%">
+                                    <stop offset="0%" stop-color="#002F5C"/>
+                                    <stop offset="72%" stop-color="#002447"/>
+                                    <stop offset="100%" stop-color="#001933"/>
+                                </radialGradient>
+                                <filter id="hdrRingGlow" x="-25%" y="-25%" width="150%" height="150%">
+                                    <feGaussianBlur stdDeviation="7" result="blur"/>
+                                    <feMerge>
+                                        <feMergeNode in="blur"/>
+                                        <feMergeNode in="SourceGraphic"/>
+                                    </feMerge>
+                                </filter>
+                            </defs>
+                            <!-- Тёмно-синий фон круга -->
+                            <circle cx="200" cy="200" r="188" fill="url(#hdrBgGrad)"/>
+                            <!-- Светящееся голубое кольцо -->
+                            <circle cx="200" cy="200" r="176" stroke="#8ED8FF" stroke-width="8" filter="url(#hdrRingGlow)"/>
+                            <!-- Фирменный силуэт пламени РГК (масштабированный для компактного бейджа) -->
+                            <g transform="translate(200, 198) scale(1.26) translate(-200, -162)">
+                                <path d="M174 223 C140 198 134 156 163 108 C164 121 169 130 176 136 C168 102 183 70 218 49 C208 75 215 95 234 119 C264 157 256 200 226 223 C240 194 240 160 214 130 C208 122 204 112 204 101 C191 119 188 150 202 181 C185 176 173 168 167 159 C159 182 162 204 174 223 Z" fill="#FFFFFF"/>
+                                <text x="200" y="224" text-anchor="middle" fill="#FFFFFF" font-family="Oswald, Arial Narrow, sans-serif" font-weight="700" font-size="45" letter-spacing="1">РГК</text>
+                            </g>
+                        </svg>
+                    </div>
+                    <div class="leading-tight">
+                        <span class="block font-display font-extrabold text-sm sm:text-base tracking-tight text-white group-hover:text-gas-ice transition-colors">
+                            Районная газовая компания
+                        </span>
+                        <span class="block text-[11px] sm:text-xs font-medium text-gas-sky tracking-wide">
+                            Газификация • Краснодарский край
+                        </span>
+                    </div>
+                </a>
+
+                <!-- Навигация (десктоп) -->
+                <nav class="hidden lg:flex items-center gap-7 text-sm font-semibold text-slate-300" aria-label="Основная навигация">
+                    <a href="#services" class="hover:text-gas-neon transition-colors py-2">Услуги</a>
+                    <a href="#turnkey" class="hover:text-gas-neon transition-colors py-2">Под ключ</a>
+                    <a href="#calculator" class="hover:text-gas-neon transition-colors py-2">Калькулятор</a>
+                    <a href="#reviews" class="hover:text-gas-neon transition-colors py-2">Отзывы</a>
+                    <a href="#contacts" class="hover:text-gas-neon transition-colors py-2">Контакты</a>
+                </nav>
+
+                <!-- Телефон и кнопка «Оставить заявку» -->
+                <div class="hidden md:flex items-center gap-4">
+                    <a href="tel:+79183469298" class="group flex items-center gap-2 text-sm font-bold text-white hover:text-gas-neon transition-colors">
+                        <span class="w-9 h-9 rounded-full bg-gas-neon/15 border border-gas-ring/35 flex items-center justify-center text-gas-neon group-hover:bg-gas-neon/25 transition-colors">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+                        </span>
+                        <span>8 (918) 346-92-98</span>
+                    </a>
+                    <button type="button" onclick="openCallbackModal()" class="btn-flame px-5 py-2.5 rounded-xl text-sm cursor-pointer">
+                        Оставить заявку
+                    </button>
+                </div>
+
+                <!-- Мобильные кнопки -->
+                <div class="flex items-center gap-2 lg:hidden">
+                    <a href="tel:+79183469298" aria-label="Позвонить 8 918 346 92 98" class="md:hidden w-10 h-10 rounded-xl bg-gas-neon/15 border border-gas-ring/40 flex items-center justify-center text-gas-neon">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+                    </a>
+                    <button id="mobile-menu-btn" type="button" aria-label="Открыть меню" aria-expanded="false" class="w-10 h-10 rounded-xl bg-white/5 border border-gas-sky/30 flex items-center justify-center text-white hover:border-gas-neon transition-colors">
+                        <svg id="burger-icon" class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M4 7h16M4 12h16M4 17h16"/>
+                        </svg>
+                        <svg id="close-icon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Выпадающее мобильное меню -->
+        <div id="mobile-menu" class="hidden lg:hidden bg-[#031024]/95 backdrop-blur-xl border-b border-gas-sky/25">
+            <div class="max-w-7xl mx-auto px-4 py-5 space-y-2">
+                <a href="#services" class="mobile-nav-link block px-4 py-3 rounded-xl text-base font-semibold text-slate-200 hover:bg-gas-neon/15 hover:text-gas-neon transition-colors">Услуги</a>
+                <a href="#turnkey" class="mobile-nav-link block px-4 py-3 rounded-xl text-base font-semibold text-slate-200 hover:bg-gas-neon/15 hover:text-gas-neon transition-colors">Под ключ (135 000 ₽)</a>
+                <a href="#calculator" class="mobile-nav-link block px-4 py-3 rounded-xl text-base font-semibold text-slate-200 hover:bg-gas-neon/15 hover:text-gas-neon transition-colors">Калькулятор стоимости</a>
+                <a href="#reviews" class="mobile-nav-link block px-4 py-3 rounded-xl text-base font-semibold text-slate-200 hover:bg-gas-neon/15 hover:text-gas-neon transition-colors">Отзывы клиентов</a>
+                <a href="#contacts" class="mobile-nav-link block px-4 py-3 rounded-xl text-base font-semibold text-slate-200 hover:bg-gas-neon/15 hover:text-gas-neon transition-colors">Контакты</a>
+                <div class="pt-3 mt-2 border-t border-white/10 flex flex-col gap-3">
+                    <a href="tel:+79183469298" class="flex items-center justify-center gap-2 py-3 rounded-xl bg-white/5 border border-gas-sky/35 text-white font-bold">
+                        <span>8 (918) 346-92-98</span>
+                    </a>
+                    <button type="button" onclick="closeMobileMenu(); openCallbackModal();" class="btn-flame w-full py-3.5 rounded-xl text-center">
+                        Оставить заявку
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- ==================== 2. ГЛАВНЫЙ ЭКРАН (HERO) ==================== -->
+        <section id="hero" class="relative min-h-screen flex flex-col justify-center pt-28 pb-16 lg:pt-32 lg:pb-20 overflow-hidden">
+            <!-- Глубокий газовый градиент -->
+            <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom,_rgba(0,145,255,0.32)_0%,_rgba(0,32,63,0.92)_52%,_#020B18_100%)] z-0"></div>
+
+            <!-- Живая HTML5 Canvas-анимация горящего голубого пламени и искр -->
+            <canvas id="gas-flame-canvas" class="absolute inset-0 w-full h-full pointer-events-none z-0 opacity-95"></canvas>
+
+            <!-- Затемнение для контрастной читаемости -->
+            <div class="absolute inset-0 bg-gradient-to-b from-[#020B18]/80 via-[#020B18]/35 to-[#020B18] pointer-events-none z-[1]"></div>
+
+            <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+                <div class="grid lg:grid-cols-12 gap-10 lg:gap-8 items-center">
+                    <!-- Левая колонка: заголовки и CTA -->
+                    <div class="lg:col-span-7 space-y-6">
+                        <!-- Бейдж -->
+                        <div class="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-[#002447]/85 border border-gas-ring/40 backdrop-blur-md shadow-flame">
+                            <span class="relative flex h-2.5 w-2.5">
+                                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-gas-neon opacity-80"></span>
+                                <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-gas-neon"></span>
+                            </span>
+                            <span class="text-xs sm:text-sm font-bold text-gas-ice tracking-wide">
+                                Работаем по всему Краснодарскому краю
+                            </span>
+                        </div>
+
+                        <!-- Главный заголовок H1 -->
+                        <h1 class="font-display font-extrabold text-3xl sm:text-5xl lg:text-[3.4rem] leading-[1.12] tracking-tight text-white">
+                            Газификация, <span class="text-flame-gradient">подключение газа</span>, догазификация
+                        </h1>
+
+                        <!-- Подзаголовок -->
+                        <p class="text-base sm:text-lg lg:text-xl text-slate-200 leading-relaxed max-w-2xl">
+                            <strong class="text-white font-bold">Районная газовая компания</strong> — газификация частного сектора под ключ от документов до пуска газа. Средняя стоимость — <strong class="text-gas-neon font-extrabold">135 000 ₽</strong>.
+                        </p>
+
+                        <!-- Кнопки CTA -->
+                        <div class="flex flex-col sm:flex-row gap-4 pt-1">
+                            <a href="#calculator" class="btn-flame px-7 py-4 rounded-2xl text-base flex items-center justify-center gap-2.5">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
+                                <span>Рассчитать стоимость</span>
+                            </a>
+                            <button type="button" onclick="openCallbackModal('Вызов инженера на участок для расчёта газификации')" class="btn-outline-flame px-7 py-4 rounded-2xl text-base font-bold flex items-center justify-center gap-2.5 cursor-pointer">
+                                <svg class="w-5 h-5 text-gas-neon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+                                <span>Вызвать инженера</span>
+                            </button>
+                        </div>
+
+                        <!-- Быстрая контактная строка -->
+                        <div class="flex flex-wrap items-center gap-x-6 gap-y-2 pt-2 text-sm text-slate-300">
+                            <a href="tel:+79183469298" class="inline-flex items-center gap-2 font-bold text-white hover:text-gas-neon transition-colors">
+                                <svg class="w-4 h-4 text-gas-neon" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+                                <span>8 (918) 346-92-98</span>
+                            </a>
+                            <span class="inline-flex items-center gap-2 text-slate-300">
+                                <svg class="w-4 h-4 text-gas-sky" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                                <span>г. Горячий Ключ, ул. Ворошилова, 10</span>
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Правая колонка: КРУПНЫЙ ФИРМЕННЫЙ СВЕТЯЩИЙСЯ КРУГЛЫЙ ЛОГОТИП РГК -->
+                    <div class="lg:col-span-5 flex flex-col items-center justify-center">
+                        <div class="relative w-[250px] h-[250px] sm:w-[285px] sm:h-[285px] lg:w-[300px] lg:h-[300px] flex items-center justify-center">
+                            <!-- Живой пульсирующий голубой неоновый ореол за логотипом -->
+                            <div class="hero-logo-halo absolute -inset-6 rounded-full bg-[radial-gradient(circle,_rgba(0,212,255,0.42)_0%,_rgba(0,102,255,0.22)_46%,_rgba(0,36,71,0)_74%)] blur-2xl pointer-events-none"></div>
+
+                            <!-- Точный векторный фирменный логотип РГК (полная версия) -->
+                            <svg class="hero-logo-float relative z-10 w-full h-full" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="РГК — Районная газовая компания">
+                                <defs>
+                                    <!-- Глубокий тёмно-синий фон внутри круга (#002447) -->
+                                    <radialGradient id="heroLogoBg" cx="50%" cy="46%" r="54%">
+                                        <stop offset="0%" stop-color="#002D5A"/>
+                                        <stop offset="68%" stop-color="#002447"/>
+                                        <stop offset="100%" stop-color="#001A36"/>
+                                    </radialGradient>
+                                    <!-- Внешнее и внутреннее неоновое свечение кольца -->
+                                    <filter id="heroRingGlow" x="-25%" y="-25%" width="150%" height="150%">
+                                        <feGaussianBlur stdDeviation="5.5" result="blurOuter"/>
+                                        <feGaussianBlur stdDeviation="2" result="blurInner"/>
+                                        <feMerge>
+                                            <feMergeNode in="blurOuter"/>
+                                            <feMergeNode in="blurInner"/>
+                                            <feMergeNode in="SourceGraphic"/>
+                                        </feMerge>
+                                    </filter>
+                                    <!-- Лёгкое мягкое сияние на белом пламени -->
+                                    <filter id="heroFlameSoftGlow" x="-15%" y="-15%" width="130%" height="130%">
+                                        <feGaussianBlur stdDeviation="2.2" result="fblur"/>
+                                        <feMerge>
+                                            <feMergeNode in="fblur"/>
+                                            <feMergeNode in="SourceGraphic"/>
+                                        </feMerge>
+                                    </filter>
+                                </defs>
+
+                                <!-- Основной тёмно-синий круг -->
+                                <circle cx="200" cy="200" r="184" fill="url(#heroLogoBg)"/>
+
+                                <!-- Светло-голубое неоновое кольцо (#8ED8FF) со свечением -->
+                                <circle cx="200" cy="200" r="183" stroke="#8ED8FF" stroke-width="3.6" filter="url(#heroRingGlow)"/>
+                                <circle cx="200" cy="200" r="183" stroke="#D8F3FF" stroke-width="1.2" opacity="0.85"/>
+
+                                <!-- Фирменный белый силуэт газового пламени с левым боковым языком и внутренним тёмно-синим вырезом -->
+                                <path d="M174 223 C140 198 134 156 163 108 C164 121 169 130 176 136 C168 102 183 70 218 49 C208 75 215 95 234 119 C264 157 256 200 226 223 C240 194 240 160 214 130 C208 122 204 112 204 101 C191 119 188 150 202 181 C185 176 173 168 167 159 C159 182 162 204 174 223 Z" fill="#FFFFFF" filter="url(#heroFlameSoftGlow)"/>
+
+                                <!-- Надпись «РГК» ровно в раскрытом основании пламени -->
+                                <text x="200" y="222" text-anchor="middle" fill="#FFFFFF" font-family="Oswald, Arial Narrow, sans-serif" font-weight="600" font-size="42" letter-spacing="1.2">РГК</text>
+
+                                <!-- Три выровненные по центру плотные строки заглавным шрифтом Oswald 700 -->
+                                <text x="200" y="272" text-anchor="middle" fill="#FFFFFF" font-family="Oswald, Arial Narrow, sans-serif" font-weight="700" font-size="45" letter-spacing="0.8">РАЙОННАЯ</text>
+                                <text x="200" y="316" text-anchor="middle" fill="#FFFFFF" font-family="Oswald, Arial Narrow, sans-serif" font-weight="700" font-size="52" letter-spacing="0.8">ГАЗОВАЯ</text>
+                                <text x="200" y="352" text-anchor="middle" fill="#FFFFFF" font-family="Oswald, Arial Narrow, sans-serif" font-weight="700" font-size="40" letter-spacing="0.8">КОМПАНИЯ</text>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Полоса 4 ключевых преимуществ внизу первого экрана -->
+                <div class="mt-12 lg:mt-16 grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div class="glass-static rounded-2xl p-4 sm:p-5 flex items-center gap-4 border-gas-sky/25">
+                        <div class="w-11 h-11 rounded-xl bg-gas-neon/15 border border-gas-neon/40 flex items-center justify-center text-gas-neon flex-shrink-0 font-extrabold text-lg">
+                            ₽
+                        </div>
+                        <div>
+                            <div class="font-extrabold text-white text-base">135 000 ₽</div>
+                            <div class="text-xs sm:text-sm text-slate-300 leading-snug">Средняя цена под ключ</div>
+                        </div>
+                    </div>
+
+                    <div class="glass-static rounded-2xl p-4 sm:p-5 flex items-center gap-4 border-gas-sky/25">
+                        <div class="w-11 h-11 rounded-xl bg-gas-neon/15 border border-gas-neon/40 flex items-center justify-center text-gas-neon flex-shrink-0">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                        </div>
+                        <div>
+                            <div class="font-extrabold text-white text-base">Всё включено</div>
+                            <div class="text-xs sm:text-sm text-slate-300 leading-snug">Ящик, счётчик, подводка, краны</div>
+                        </div>
+                    </div>
+
+                    <div class="glass-static rounded-2xl p-4 sm:p-5 flex items-center gap-4 border-gas-sky/25">
+                        <div class="w-11 h-11 rounded-xl bg-gas-neon/15 border border-gas-neon/40 flex items-center justify-center text-gas-neon flex-shrink-0">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 8h16M4 16h16M7 4v16M17 4v16"/></svg>
+                        </div>
+                        <div>
+                            <div class="font-extrabold text-white text-base">150–300 мм</div>
+                            <div class="text-xs sm:text-sm text-slate-300 leading-snug">Своё производство вентиляции</div>
+                        </div>
+                    </div>
+
+                    <div class="glass-static rounded-2xl p-4 sm:p-5 flex items-center gap-4 border-gas-sky/25">
+                        <div class="w-11 h-11 rounded-xl bg-gas-neon/15 border border-gas-neon/40 flex items-center justify-center text-gas-neon flex-shrink-0">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                        </div>
+                        <div>
+                            <div class="font-extrabold text-white text-base">Оптовые цены</div>
+                            <div class="text-xs sm:text-sm text-slate-300 leading-snug">Котлы и колонки без наценок</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== 3. СЕКЦИЯ «ЧТО МЫ ДЕЛАЕМ» (6 КАРТОЧЕК) ==================== -->
+        <section id="services" class="relative py-20 lg:py-28 overflow-hidden">
+            <div class="ambient-orb w-96 h-96 bg-gas-deep/25 -top-24 -left-24"></div>
+            <div class="ambient-orb w-80 h-80 bg-gas-neon/15 bottom-0 right-0"></div>
+
+            <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="max-w-3xl mb-14 reveal">
+                    <span class="inline-block text-xs sm:text-sm font-bold uppercase tracking-[0.2em] text-gas-neon mb-3">
+                        Услуги компании РГК
+                    </span>
+                    <h2 class="font-display font-extrabold text-3xl sm:text-4xl lg:text-5xl text-white tracking-tight">
+                        Что мы <span class="text-flame-gradient">делаем</span>
+                    </h2>
+                    <p class="mt-4 text-slate-300 text-base sm:text-lg leading-relaxed">
+                        Комплексная газификация частных домов в Горячем Ключе и по всему Краснодарскому краю — от техусловий и собственного производства вентканалов до пуска газа.
+                    </p>
+                </div>
+
+                <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Услуга 1 -->
+                    <article class="glass-card rounded-3xl p-7 flex flex-col justify-between reveal">
+                        <div>
+                            <div class="flex items-center justify-between mb-6">
+                                <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-gas-deep/45 to-gas-neon/20 border border-gas-neon/45 flex items-center justify-center text-gas-neon shadow-flame">
+                                    <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+                                </div>
+                                <span class="px-3 py-1 rounded-full bg-gas-neon/15 border border-gas-neon/40 text-xs font-extrabold text-gas-neon">
+                                    ~135 000 ₽
+                                </span>
+                            </div>
+                            <h3 class="font-display font-bold text-xl text-white mb-3">
+                                Газификация частного сектора под ключ
+                            </h3>
+                            <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
+                                Средняя стоимость <strong class="text-white">135 000 ₽</strong>. Выполняем весь комплекс работ от первых бумаг до пуска голубого огня в вашем доме по прозрачной смете.
+                            </p>
+                        </div>
+                        <div class="mt-6 pt-4 border-t border-white/10 flex items-center justify-between text-xs font-bold text-gas-neon">
+                            <span>Договор и гарантия</span>
+                            <button type="button" onclick="openCallbackModal('Заявка: Газификация частного сектора под ключ (~135 000 ₽)')" class="hover:underline cursor-pointer">Заказать →</button>
+                        </div>
+                    </article>
+
+                    <!-- Услуга 2 -->
+                    <article class="glass-card rounded-3xl p-7 flex flex-col justify-between reveal">
+                        <div>
+                            <div class="flex items-center justify-between mb-6">
+                                <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-gas-deep/45 to-gas-neon/20 border border-gas-neon/45 flex items-center justify-center text-gas-neon shadow-flame">
+                                    <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                                </div>
+                                <span class="px-3 py-1 rounded-full bg-white/5 border border-white/15 text-xs font-semibold text-slate-300">
+                                    Без очередей
+                                </span>
+                            </div>
+                            <h3 class="font-display font-bold text-xl text-white mb-3">
+                                Документальное сопровождение
+                            </h3>
+                            <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
+                                Техусловия, проект, согласования, подготовка исполнительной документации, приёмка и пуск газа без беготни по инстанциям и лишних задержек.
+                            </p>
+                        </div>
+                        <div class="mt-6 pt-4 border-t border-white/10 flex items-center justify-between text-xs font-bold text-gas-neon">
+                            <span>ТУ, проект, акты</span>
+                            <button type="button" onclick="openCallbackModal('Заявка: Документальное сопровождение газификации')" class="hover:underline cursor-pointer">Уточнить →</button>
+                        </div>
+                    </article>
+
+                    <!-- Услуга 3 -->
+                    <article class="glass-card rounded-3xl p-7 flex flex-col justify-between reveal">
+                        <div>
+                            <div class="flex items-center justify-between mb-6">
+                                <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-gas-deep/45 to-gas-neon/20 border border-gas-neon/45 flex items-center justify-center text-gas-neon shadow-flame">
+                                    <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                                </div>
+                                <span class="px-3 py-1 rounded-full bg-white/5 border border-white/15 text-xs font-semibold text-slate-300">
+                                    Строго по СНиП
+                                </span>
+                            </div>
+                            <h3 class="font-display font-bold text-xl text-white mb-3">
+                                Монтаж газопровода ввода
+                            </h3>
+                            <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
+                                Профессиональная прокладка наружного (подземного и надземного) и внутреннего газопровода с соблюдением всех СНиП, ГОСТ и обязательной опрессовкой.
+                            </p>
+                        </div>
+                        <div class="mt-6 pt-4 border-t border-white/10 flex items-center justify-between text-xs font-bold text-gas-neon">
+                            <span>Аттестованные мастера</span>
+                            <button type="button" onclick="openCallbackModal('Заявка: Монтаж газопровода ввода')" class="hover:underline cursor-pointer">Заказать →</button>
+                        </div>
+                    </article>
+
+                    <!-- Услуга 4 -->
+                    <article class="glass-card rounded-3xl p-7 flex flex-col justify-between reveal">
+                        <div>
+                            <div class="flex items-center justify-between mb-6">
+                                <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-gas-deep/45 to-gas-neon/20 border border-gas-neon/45 flex items-center justify-center text-gas-neon shadow-flame">
+                                    <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
+                                </div>
+                                <span class="px-3 py-1 rounded-full bg-gas-neon/15 border border-gas-neon/40 text-xs font-extrabold text-gas-neon">
+                                    Всё включено
+                                </span>
+                            </div>
+                            <h3 class="font-display font-bold text-xl text-white mb-3">
+                                Полный монтажный комплект «Всё включено»
+                            </h3>
+                            <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
+                                Защитный шкаф/ящик, сертифицированный газовый счётчик, гибкая подводка, запорные краны, диэлектрические вставки и вся необходимая арматура.
+                            </p>
+                        </div>
+                        <div class="mt-6 pt-4 border-t border-white/10 flex items-center justify-between text-xs font-bold text-gas-neon">
+                            <span>Ничего не докупаете</span>
+                            <button type="button" onclick="openCallbackModal('Заявка: Полный монтажный комплект «Всё включено»')" class="hover:underline cursor-pointer">Подробнее →</button>
+                        </div>
+                    </article>
+
+                    <!-- Услуга 5 -->
+                    <article class="glass-card rounded-3xl p-7 flex flex-col justify-between reveal">
+                        <div>
+                            <div class="flex items-center justify-between mb-6">
+                                <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-gas-deep/45 to-gas-neon/20 border border-gas-neon/45 flex items-center justify-center text-gas-neon shadow-flame">
+                                    <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z"/><path stroke-linecap="round" stroke-linejoin="round" d="M9.879 16.121A3 3 0 1012.015 11L11 14H9c0 .768.293 1.536.879 2.121z"/></svg>
+                                </div>
+                                <span class="px-3 py-1 rounded-full bg-gas-neon/15 border border-gas-neon/40 text-xs font-extrabold text-gas-neon">
+                                    Оптовые цены
+                                </span>
+                            </div>
+                            <h3 class="font-display font-bold text-xl text-white mb-3">
+                                Газовое оборудование по оптовым ценам
+                            </h3>
+                            <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
+                                Настенные и напольные котлы, газовые колонки <strong class="text-white">Navien, Baxi, Hubert, Ferroli</strong> и других брендов напрямую от поставщиков без розничных наценок.
+                            </p>
+                        </div>
+                        <div class="mt-6 pt-4 border-t border-white/10 flex items-center justify-between text-xs font-bold text-gas-neon">
+                            <span>Подбор под площадь дома</span>
+                            <button type="button" onclick="openCallbackModal('Заявка: Подбор газового котла/колонки по оптовой цене')" class="hover:underline cursor-pointer">Подобрать →</button>
+                        </div>
+                    </article>
+
+                    <!-- Услуга 6 -->
+                    <article class="glass-card rounded-3xl p-7 flex flex-col justify-between reveal">
+                        <div>
+                            <div class="flex items-center justify-between mb-6">
+                                <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-gas-deep/45 to-gas-neon/20 border border-gas-neon/45 flex items-center justify-center text-gas-neon shadow-flame">
+                                    <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 8h16M4 16h16M7 4v16M17 4v16"/></svg>
+                                </div>
+                                <span class="px-3 py-1 rounded-full bg-white/5 border border-white/15 text-xs font-semibold text-slate-300">
+                                    Своё производство
+                                </span>
+                            </div>
+                            <h3 class="font-display font-bold text-xl text-white mb-3">
+                                Вентиляционные каналы от 150 мм до 300 мм
+                            </h3>
+                            <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
+                                Собственное производство и профессиональный монтаж вентиляционных каналов <strong class="text-white">150–300 мм</strong> строго под требования газовой службы и ВДПО.
+                            </p>
+                        </div>
+                        <div class="mt-6 pt-4 border-t border-white/10 flex items-center justify-between text-xs font-bold text-gas-neon">
+                            <span>Изготовление + монтаж</span>
+                            <button type="button" onclick="openCallbackModal('Заявка: Вентиляционные каналы 150–300 мм (своё производство и монтаж)')" class="hover:underline cursor-pointer">Рассчитать →</button>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== 4. СЕКЦИЯ «ПОД КЛЮЧ — 135 000 ₽» ==================== -->
+        <section id="turnkey" class="relative py-16 lg:py-24">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="relative rounded-[2rem] p-[1.5px] bg-gradient-to-r from-gas-deep/65 via-gas-neon/75 to-gas-deep/65 shadow-card-glow reveal">
+                    <div class="rounded-[30px] bg-gradient-to-br from-[#002447] via-[#04162E] to-[#020B18] p-7 sm:p-10 lg:p-12 overflow-hidden relative">
+                        <div class="ambient-orb w-80 h-80 bg-gas-neon/20 -top-24 right-8"></div>
+
+                        <div class="relative z-10 grid lg:grid-cols-12 gap-8 lg:gap-10 items-center">
+                            <div class="lg:col-span-5 space-y-5">
+                                <span class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-gas-neon/15 border border-gas-neon/40 text-xs font-extrabold uppercase tracking-wider text-gas-neon">
+                                    Прозрачная смета без скрытых доплат
+                                </span>
+                                <h2 class="font-display font-extrabold text-2xl sm:text-3xl lg:text-4xl text-white leading-tight">
+                                    Под ключ — <span class="text-flame-gradient">135 000 ₽</span>
+                                </h2>
+                                <p class="text-slate-200 text-sm sm:text-base leading-relaxed">
+                                    Средняя стоимость полной газификации частного дома. Вы заранее видите весь состав работ и материалов в договоре — без неожиданных доплат за «забытые» краны, ящик или согласования.
+                                </p>
+                                <div class="flex flex-wrap gap-3 pt-1">
+                                    <a href="#calculator" class="btn-flame inline-flex items-center gap-2 px-6 py-3.5 rounded-xl text-sm sm:text-base">
+                                        <span>Настроить в калькуляторе</span>
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.4" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3"/></svg>
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div class="lg:col-span-7 grid sm:grid-cols-2 gap-4">
+                                <div class="rounded-2xl bg-[#020E20]/70 border border-gas-ring/25 p-5">
+                                    <div class="flex items-center gap-2.5 text-gas-neon font-extrabold text-sm mb-2">
+                                        <span class="w-6 h-6 rounded-lg bg-gas-neon/20 flex items-center justify-center text-xs">01</span>
+                                        <span>Документальное сопровождение</span>
+                                    </div>
+                                    <p class="text-slate-300 text-sm leading-relaxed">Оформляем технические условия, проектную и исполнительно-техническую документацию, ведём сдачу объекта.</p>
+                                </div>
+
+                                <div class="rounded-2xl bg-[#020E20]/70 border border-gas-ring/25 p-5">
+                                    <div class="flex items-center gap-2.5 text-gas-neon font-extrabold text-sm mb-2">
+                                        <span class="w-6 h-6 rounded-lg bg-gas-neon/20 flex items-center justify-center text-xs">02</span>
+                                        <span>Монтаж газопровода ввода</span>
+                                    </div>
+                                    <p class="text-slate-300 text-sm leading-relaxed">Прокладка трубы по участку, аккуратный ввод в дом, монтаж обвязки и испытание системы на герметичность.</p>
+                                </div>
+
+                                <div class="rounded-2xl bg-[#020E20]/70 border border-gas-ring/25 p-5">
+                                    <div class="flex items-center gap-2.5 text-gas-neon font-extrabold text-sm mb-2">
+                                        <span class="w-6 h-6 rounded-lg bg-gas-neon/20 flex items-center justify-center text-xs">03</span>
+                                        <span>Полный комплект «Всё включено»</span>
+                                    </div>
+                                    <p class="text-slate-300 text-sm leading-relaxed">Защитный шкаф/ящик, газовый счётчик, гибкая подводка, шаровые краны, диэлектрические вставки и расходники.</p>
+                                </div>
+
+                                <div class="rounded-2xl bg-[#020E20]/70 border border-gas-ring/25 p-5">
+                                    <div class="flex items-center gap-2.5 text-gas-neon font-extrabold text-sm mb-2">
+                                        <span class="w-6 h-6 rounded-lg bg-gas-neon/20 flex items-center justify-center text-xs">04</span>
+                                        <span>Дополнительная выгода</span>
+                                    </div>
+                                    <p class="text-slate-300 text-sm leading-relaxed">Собственные вентканалы 150–300 мм по цене производителя и поставка котлов Navien, Baxi, Hubert, Ferroli по оптовым ценам.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== 5. ИНТЕРАКТИВНЫЙ КАЛЬКУЛЯТОР СТОИМОСТИ ==================== -->
+        <section id="calculator" class="relative py-20 lg:py-28 overflow-hidden">
+            <div class="ambient-orb w-96 h-96 bg-gas-neon/15 top-12 right-[-100px]"></div>
+
+            <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="max-w-3xl mb-12 reveal">
+                    <span class="inline-block text-xs sm:text-sm font-bold uppercase tracking-[0.2em] text-gas-neon mb-3">
+                        Онлайн-расчёт
+                    </span>
+                    <h2 class="font-display font-extrabold text-3xl sm:text-4xl lg:text-5xl text-white tracking-tight">
+                        Калькулятор <span class="text-flame-gradient">стоимости</span>
+                    </h2>
+                    <p class="mt-4 text-slate-300 text-base sm:text-lg">
+                        Соберите нужную комплектацию — расчёт мгновенно обновится, и вы сможете отправить его прямо в заявку инженеру.
+                    </p>
+                </div>
+
+                <div class="grid lg:grid-cols-12 gap-8 items-start reveal">
+                    <!-- Левая колонка: настройки калькулятора -->
+                    <div class="lg:col-span-7 space-y-6">
+                        <!-- Шаг 1: Тип работ -->
+                        <div class="glass-static rounded-3xl p-6 space-y-4">
+                            <div class="flex items-center justify-between">
+                                <h3 class="font-display font-bold text-lg text-white">1. Выберите тип работ</h3>
+                                <span class="text-xs font-semibold text-gas-sky">Обязательно</span>
+                            </div>
+                            <div class="grid sm:grid-cols-2 gap-3" role="radiogroup" aria-label="Тип работ">
+                                <button type="button" data-work="turnkey" data-price="135000" data-label="Газификация частного сектора под ключ" class="work-type-btn calc-choice is-active text-left p-4 rounded-2xl border border-gas-sky/25 bg-white/[0.03] cursor-pointer">
+                                    <div class="font-bold text-sm sm:text-base text-white">Газификация под ключ</div>
+                                    <div class="text-xs text-slate-300 mt-1">Полный цикл от документов до пуска</div>
+                                    <div class="text-sm font-extrabold text-gas-neon mt-2">~135 000 ₽</div>
+                                </button>
+
+                                <button type="button" data-work="dogaz" data-price="115000" data-label="Догазификация (работы внутри участка)" class="work-type-btn calc-choice text-left p-4 rounded-2xl border border-gas-sky/25 bg-white/[0.03] cursor-pointer">
+                                    <div class="font-bold text-sm sm:text-base text-white">Догазификация</div>
+                                    <div class="text-xs text-slate-300 mt-1">Подключение внутри границ участка</div>
+                                    <div class="text-sm font-extrabold text-gas-neon mt-2">~115 000 ₽</div>
+                                </button>
+
+                                <button type="button" data-work="pipe" data-price="55000" data-label="Только монтаж газопровода ввода" class="work-type-btn calc-choice text-left p-4 rounded-2xl border border-gas-sky/25 bg-white/[0.03] cursor-pointer">
+                                    <div class="font-bold text-sm sm:text-base text-white">Только монтаж ввода</div>
+                                    <div class="text-xs text-slate-300 mt-1">Наружный и внутренний газопровод</div>
+                                    <div class="text-sm font-extrabold text-gas-neon mt-2">~55 000 ₽</div>
+                                </button>
+
+                                <button type="button" data-work="ventonly" data-price="0" data-label="Только вентиляционные каналы" class="work-type-btn calc-choice text-left p-4 rounded-2xl border border-gas-sky/25 bg-white/[0.03] cursor-pointer">
+                                    <div class="font-bold text-sm sm:text-base text-white">Только вентиляция</div>
+                                    <div class="text-xs text-slate-300 mt-1">Своё производство и монтаж 150–300 мм</div>
+                                    <div class="text-sm font-extrabold text-gas-neon mt-2">от 14 000 ₽</div>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Шаг 2: Чекбоксы опций -->
+                        <div class="glass-static rounded-3xl p-6 space-y-3">
+                            <h3 class="font-display font-bold text-lg text-white mb-1">2. Сопровождение и комплектация</h3>
+
+                            <label class="calc-choice is-active flex items-start gap-3.5 p-4 rounded-2xl border border-gas-sky/25 bg-white/[0.03] cursor-pointer select-none">
+                                <input id="opt-docs" type="checkbox" checked class="mt-1 w-5 h-5 accent-sky-400 rounded cursor-pointer flex-shrink-0">
+                                <div class="flex-1">
+                                    <div class="flex flex-wrap items-center justify-between gap-2">
+                                        <span class="font-bold text-sm sm:text-base text-white">Документальное сопровождение</span>
+                                        <span id="price-docs-label" class="font-bold text-xs sm:text-sm text-gas-neon">Включено в пакет</span>
+                                    </div>
+                                    <p class="text-xs text-slate-300 mt-0.5">Техусловия, проект, согласования и сдача объекта газовой службе</p>
+                                </div>
+                            </label>
+
+                            <label class="calc-choice is-active flex items-start gap-3.5 p-4 rounded-2xl border border-gas-sky/25 bg-white/[0.03] cursor-pointer select-none">
+                                <input id="opt-kit" type="checkbox" checked class="mt-1 w-5 h-5 accent-sky-400 rounded cursor-pointer flex-shrink-0">
+                                <div class="flex-1">
+                                    <div class="flex flex-wrap items-center justify-between gap-2">
+                                        <span class="font-bold text-sm sm:text-base text-white">Полный монтажный комплект «Всё включено»</span>
+                                        <span id="price-kit-label" class="font-bold text-xs sm:text-sm text-gas-neon">Включено в пакет</span>
+                                    </div>
+                                    <p class="text-xs text-slate-300 mt-0.5">Защитный шкаф/ящик, газовый счётчик, подводка, краны и арматура</p>
+                                </div>
+                            </label>
+                        </div>
+
+                        <!-- Шаг 3: Вентиляционные каналы (своё производство 150–300 мм) -->
+                        <div class="glass-static rounded-3xl p-6 space-y-4">
+                            <div class="flex flex-wrap items-center justify-between gap-2">
+                                <h3 class="font-display font-bold text-lg text-white">3. Вентиляционные каналы (своё производство)</h3>
+                                <span id="vent-price-badge" class="text-sm font-extrabold text-gas-neon">0 ₽</span>
+                            </div>
+                            <div class="grid grid-cols-2 sm:grid-cols-5 gap-2.5">
+                                <button type="button" data-vent="none" data-price="0" data-label="Вентиляция не нужна" class="vent-btn calc-choice is-active px-3 py-3 rounded-xl border border-gas-sky/25 bg-white/[0.03] text-xs sm:text-sm font-bold text-white cursor-pointer">
+                                    Не нужна
+                                </button>
+                                <button type="button" data-vent="150" data-price="14000" data-label="Вентканалы 150 мм (производство + монтаж)" class="vent-btn calc-choice px-3 py-3 rounded-xl border border-gas-sky/25 bg-white/[0.03] text-xs sm:text-sm font-semibold text-slate-200 cursor-pointer">
+                                    150 мм
+                                </button>
+                                <button type="button" data-vent="200" data-price="16000" data-label="Вентканалы 200 мм (производство + монтаж)" class="vent-btn calc-choice px-3 py-3 rounded-xl border border-gas-sky/25 bg-white/[0.03] text-xs sm:text-sm font-semibold text-slate-200 cursor-pointer">
+                                    200 мм
+                                </button>
+                                <button type="button" data-vent="250" data-price="19500" data-label="Вентканалы 250 мм (производство + монтаж)" class="vent-btn calc-choice px-3 py-3 rounded-xl border border-gas-sky/25 bg-white/[0.03] text-xs sm:text-sm font-semibold text-slate-200 cursor-pointer">
+                                    250 мм
+                                </button>
+                                <button type="button" data-vent="300" data-price="23000" data-label="Вентканалы 300 мм (производство + монтаж)" class="vent-btn calc-choice col-span-2 sm:col-span-1 px-3 py-3 rounded-xl border border-gas-sky/25 bg-white/[0.03] text-xs sm:text-sm font-semibold text-slate-200 cursor-pointer">
+                                    300 мм
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Шаг 4: Газовое оборудование по оптовым ценам -->
+                        <div class="glass-static rounded-3xl p-6 space-y-4">
+                            <div class="flex flex-wrap items-center justify-between gap-2">
+                                <h3 class="font-display font-bold text-lg text-white">4. Газовое оборудование (оптовые цены)</h3>
+                                <span id="equip-price-badge" class="text-sm font-extrabold text-gas-neon">0 ₽</span>
+                            </div>
+                            <div class="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
+                                <button type="button" data-equip="none" data-price="0" data-label="Без оборудования" class="equip-btn calc-choice is-active px-3 py-3 rounded-xl border border-gas-sky/25 bg-white/[0.03] text-xs sm:text-sm font-bold text-white cursor-pointer">
+                                    Без оборудования
+                                </button>
+                                <button type="button" data-equip="navien" data-price="46000" data-label="Котёл Navien (оптовая цена)" class="equip-btn calc-choice px-3 py-3 rounded-xl border border-gas-sky/25 bg-white/[0.03] text-xs sm:text-sm font-semibold text-slate-200 cursor-pointer">
+                                    Котёл Navien
+                                </button>
+                                <button type="button" data-equip="baxi" data-price="58000" data-label="Котёл Baxi (оптовая цена)" class="equip-btn calc-choice px-3 py-3 rounded-xl border border-gas-sky/25 bg-white/[0.03] text-xs sm:text-sm font-semibold text-slate-200 cursor-pointer">
+                                    Котёл Baxi
+                                </button>
+                                <button type="button" data-equip="hubert" data-price="41000" data-label="Котёл Hubert (оптовая цена)" class="equip-btn calc-choice px-3 py-3 rounded-xl border border-gas-sky/25 bg-white/[0.03] text-xs sm:text-sm font-semibold text-slate-200 cursor-pointer">
+                                    Котёл Hubert
+                                </button>
+                                <button type="button" data-equip="ferroli" data-price="49000" data-label="Котёл Ferroli (оптовая цена)" class="equip-btn calc-choice px-3 py-3 rounded-xl border border-gas-sky/25 bg-white/[0.03] text-xs sm:text-sm font-semibold text-slate-200 cursor-pointer">
+                                    Котёл Ferroli
+                                </button>
+                                <button type="button" data-equip="column" data-price="19000" data-label="Газовая колонка (оптовая цена)" class="equip-btn calc-choice px-3 py-3 rounded-xl border border-gas-sky/25 bg-white/[0.03] text-xs sm:text-sm font-semibold text-slate-200 cursor-pointer">
+                                    Газовая колонка
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Правая колонка: Итоговая карточка расчёта -->
+                    <div class="lg:col-span-5 lg:sticky lg:top-28">
+                        <div class="rounded-3xl p-[1.5px] bg-gradient-to-b from-gas-neon/80 via-gas-sky/45 to-gas-deep/40 shadow-flame">
+                            <div class="rounded-[22px] bg-[#041226]/95 backdrop-blur-xl p-6 sm:p-8 space-y-6">
+                                <div class="flex items-center justify-between border-b border-white/10 pb-4">
+                                    <h3 class="font-display font-bold text-xl text-white">Ваша смета</h3>
+                                    <span class="text-xs font-bold px-3 py-1 rounded-full bg-gas-neon/15 text-gas-neon border border-gas-neon/30">
+                                        Онлайн-расчёт
+                                    </span>
+                                </div>
+
+                                <ul id="calc-summary-list" class="space-y-3 text-sm text-slate-200 min-h-[120px]">
+                                    <!-- Заполняется динамически -->
+                                </ul>
+
+                                <div class="pt-5 border-t border-white/10">
+                                    <div class="text-xs uppercase tracking-wider text-slate-400 font-bold">
+                                        Ориентировочная стоимость
+                                    </div>
+                                    <div class="mt-1">
+                                        <span id="calc-total-price" class="font-display font-extrabold text-4xl sm:text-5xl text-flame-gradient">
+                                            135 000 ₽
+                                        </span>
+                                    </div>
+                                    <p class="mt-2 text-xs text-slate-400 leading-relaxed">
+                                        Точная цена фиксируется в договоре после бесплатного выезда инженера и замера участка.
+                                    </p>
+                                </div>
+
+                                <div class="space-y-3">
+                                    <button type="button" onclick="applyCalculatorToContactForm()" class="btn-flame w-full py-4 px-6 rounded-2xl text-base flex items-center justify-center gap-2 cursor-pointer">
+                                        <span>Отправить расчёт в заявку</span>
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                                    </button>
+                                    <a href="tel:+79183469298" class="btn-outline-flame w-full py-3.5 px-6 rounded-2xl text-sm font-bold flex items-center justify-center gap-2">
+                                        <span>Позвонить: 8 (918) 346-92-98</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== 6. ЭТАПЫ РАБОТЫ (5 ПОНЯТНЫХ ШАГОВ) ==================== -->
+        <section id="steps" class="relative py-20 lg:py-28 bg-gradient-to-b from-transparent via-[#001D3D]/55 to-transparent">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-3xl mx-auto mb-16 reveal">
+                    <span class="inline-block text-xs sm:text-sm font-bold uppercase tracking-[0.2em] text-gas-neon mb-3">
+                        Как мы работаем
+                    </span>
+                    <h2 class="font-display font-extrabold text-3xl sm:text-4xl lg:text-5xl text-white tracking-tight">
+                        5 шагов от звонка до <span class="text-flame-gradient">пуска газа</span>
+                    </h2>
+                    <p class="mt-4 text-slate-300 text-base sm:text-lg">
+                        Чёткий порядок действий без бюрократии — вы всегда знаете, на каком этапе находится подключение вашего дома.
+                    </p>
+                </div>
+
+                <div class="relative reveal">
+                    <!-- Неоновая линия (десктоп) -->
+                    <div class="hidden xl:block absolute top-11 left-[9%] right-[9%] h-[3px] step-connector rounded-full z-0"></div>
+
+                    <div class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-5 relative z-10">
+                        <div class="glass-card rounded-3xl p-6">
+                            <div class="w-12 h-12 rounded-2xl bg-[#002447] border-2 border-gas-neon text-gas-neon font-extrabold text-lg flex items-center justify-center shadow-flame mb-5">01</div>
+                            <h3 class="font-bold text-lg text-white mb-2">Звонок или заявка</h3>
+                            <p class="text-slate-300 text-sm leading-relaxed">Консультируем по срокам и программе догазификации, отвечаем на все вопросы.</p>
+                        </div>
+
+                        <div class="glass-card rounded-3xl p-6">
+                            <div class="w-12 h-12 rounded-2xl bg-[#002447] border-2 border-gas-neon text-gas-neon font-extrabold text-lg flex items-center justify-center shadow-flame mb-5">02</div>
+                            <h3 class="font-bold text-lg text-white mb-2">Выезд и смета</h3>
+                            <p class="text-slate-300 text-sm leading-relaxed">Инженер осматривает участок, подбирает оптимальную трассу и фиксирует цену в договоре.</p>
+                        </div>
+
+                        <div class="glass-card rounded-3xl p-6">
+                            <div class="w-12 h-12 rounded-2xl bg-[#002447] border-2 border-gas-neon text-gas-neon font-extrabold text-lg flex items-center justify-center shadow-flame mb-5">03</div>
+                            <h3 class="font-bold text-lg text-white mb-2">Документы и проект</h3>
+                            <p class="text-slate-300 text-sm leading-relaxed">Готовим ТУ, проектную документацию и проводим все согласования без вашего участия в очередях.</p>
+                        </div>
+
+                        <div class="glass-card rounded-3xl p-6">
+                            <div class="w-12 h-12 rounded-2xl bg-[#002447] border-2 border-gas-neon text-gas-neon font-extrabold text-lg flex items-center justify-center shadow-flame mb-5">04</div>
+                            <h3 class="font-bold text-lg text-white mb-2">Монтаж и вентиляция</h3>
+                            <p class="text-slate-300 text-sm leading-relaxed">Прокладываем газопровод, ставим ящик, счётчик, краны, свои вентканалы 150–300 мм и котёл.</p>
+                        </div>
+
+                        <div class="glass-card rounded-3xl p-6 sm:col-span-2 lg:col-span-1">
+                            <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-gas-deep to-gas-neon text-[#021024] font-extrabold text-lg flex items-center justify-center shadow-flame-strong mb-5">05</div>
+                            <h3 class="font-bold text-lg text-white mb-2">Приёмка и пуск газа</h3>
+                            <p class="text-slate-300 text-sm leading-relaxed">Проводим опрессовку, сдаём исполнительную документацию — в вашем доме горит голубой огонь!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== 7. ОТЗЫВЫ КЛИЕНТОВ ==================== -->
+        <section id="reviews" class="relative py-20 lg:py-28 overflow-hidden">
+            <div class="ambient-orb w-96 h-96 bg-gas-deep/20 bottom-0 left-[-80px]"></div>
+
+            <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 reveal">
+                    <div class="max-w-2xl">
+                        <span class="inline-block text-xs sm:text-sm font-bold uppercase tracking-[0.2em] text-gas-neon mb-3">
+                            Репутация в крае
+                        </span>
+                        <h2 class="font-display font-extrabold text-3xl sm:text-4xl lg:text-5xl text-white tracking-tight">
+                            Отзывы <span class="text-flame-gradient">клиентов</span>
+                        </h2>
+                        <p class="mt-4 text-slate-300 text-base sm:text-lg">
+                            Реальные истории владельцев частных домов в Горячем Ключе, ст. Саратовской и по всему Краснодарскому краю.
+                        </p>
+                    </div>
+
+                    <div class="flex items-center gap-3">
+                        <button id="rev-prev" type="button" aria-label="Предыдущий отзыв" class="w-12 h-12 rounded-2xl glass-static hover:border-gas-neon flex items-center justify-center text-white hover:text-gas-neon transition-all cursor-pointer">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+                        </button>
+                        <button id="rev-next" type="button" aria-label="Следующий отзыв" class="w-12 h-12 rounded-2xl glass-static hover:border-gas-neon flex items-center justify-center text-white hover:text-gas-neon transition-all cursor-pointer">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+                        </button>
+                    </div>
+                </div>
+
+                <div id="reviews-grid" class="grid md:grid-cols-2 gap-6 reveal">
+                    <!-- Отзыв 1 -->
+                    <article class="review-card glass-card rounded-3xl p-7 flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between gap-4 mb-5">
+                                <div class="flex items-center gap-3.5">
+                                    <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-gas-deep to-gas-neon flex items-center justify-center font-extrabold text-[#021024] text-lg shadow-flame">
+                                        АМ
+                                    </div>
+                                    <div>
+                                        <div class="font-bold text-white text-base">Александр Михайлович</div>
+                                        <div class="text-xs text-gas-neon font-semibold">г. Горячий Ключ</div>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <div class="flex items-center gap-0.5 text-gas-neon text-base" aria-label="Оценка 5 из 5">
+                                        <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                                    </div>
+                                    <div class="text-xs text-slate-400 mt-0.5">Октябрь 2026</div>
+                                </div>
+                            </div>
+                            <p class="text-slate-200 text-sm sm:text-base leading-relaxed">
+                                «Подключали газ в новый дом под ключ — как озвучили среднюю сумму 135 000 ₽ на замере, так по договору и вышло без единой скрытой доплаты. Ребята привезли сразу полный комплект: ящик, счётчик, гибкую подводку, краны. Трубу по фасаду уложили ровно, сварка аккуратная, пуск прошёл с первого раза.»
+                            </p>
+                        </div>
+                        <div class="mt-5 pt-4 border-t border-white/10">
+                            <span class="inline-block text-xs font-bold px-3 py-1 rounded-full bg-gas-neon/15 text-gas-neon border border-gas-neon/30">
+                                Газификация под ключ • 135 000 ₽
+                            </span>
+                        </div>
+                    </article>
+
+                    <!-- Отзыв 2 -->
+                    <article class="review-card glass-card rounded-3xl p-7 flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between gap-4 mb-5">
+                                <div class="flex items-center gap-3.5">
+                                    <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-gas-deep to-gas-neon flex items-center justify-center font-extrabold text-[#021024] text-lg shadow-flame">
+                                        ЕК
+                                    </div>
+                                    <div>
+                                        <div class="font-bold text-white text-base">Елена Кравченко</div>
+                                        <div class="text-xs text-gas-neon font-semibold">ст. Саратовская</div>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <div class="flex items-center gap-0.5 text-gas-neon text-base" aria-label="Оценка 5 из 5">
+                                        <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                                    </div>
+                                    <div class="text-xs text-slate-400 mt-0.5">Сентябрь 2026</div>
+                                </div>
+                            </div>
+                            <p class="text-slate-200 text-sm sm:text-base leading-relaxed">
+                                «Больше всего пугали бумажные согласования и техусловия — времени отпрашиваться с работы просто не было. В Районной газовой компании взяли всё документальное сопровождение на себя. Инженер держал в курсе на каждом шаге, проект согласовали быстро, газовики приняли объект без единого замечания.»
+                            </p>
+                        </div>
+                        <div class="mt-5 pt-4 border-t border-white/10">
+                            <span class="inline-block text-xs font-bold px-3 py-1 rounded-full bg-gas-neon/15 text-gas-neon border border-gas-neon/30">
+                                Догазификация + документы под ключ
+                            </span>
+                        </div>
+                    </article>
+
+                    <!-- Отзыв 3 -->
+                    <article class="review-card glass-card rounded-3xl p-7 flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between gap-4 mb-5">
+                                <div class="flex items-center gap-3.5">
+                                    <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-gas-deep to-gas-neon flex items-center justify-center font-extrabold text-[#021024] text-lg shadow-flame">
+                                        СВ
+                                    </div>
+                                    <div>
+                                        <div class="font-bold text-white text-base">Сергей Волков</div>
+                                        <div class="text-xs text-gas-neon font-semibold">г. Горячий Ключ</div>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <div class="flex items-center gap-0.5 text-gas-neon text-base" aria-label="Оценка 5 из 5">
+                                        <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                                    </div>
+                                    <div class="text-xs text-slate-400 mt-0.5">Август 2026</div>
+                                </div>
+                            </div>
+                            <p class="text-slate-200 text-sm sm:text-base leading-relaxed">
+                                «Для пуска газа потребовались правильные вентканалы в кухню и котельную. Обратился в РГК, потому что у них своё производство — изготовили каналы на 200 мм и 150 мм точно под наш дом и в тот же день смонтировали. Проходку через крышу загерметизировали идеально, акт ВДПО получили сразу.»
+                            </p>
+                        </div>
+                        <div class="mt-5 pt-4 border-t border-white/10">
+                            <span class="inline-block text-xs font-bold px-3 py-1 rounded-full bg-gas-neon/15 text-gas-neon border border-gas-neon/30">
+                                Вентканалы 150 и 200 мм • Своё производство
+                            </span>
+                        </div>
+                    </article>
+
+                    <!-- Отзыв 4 -->
+                    <article class="review-card glass-card rounded-3xl p-7 flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between gap-4 mb-5">
+                                <div class="flex items-center gap-3.5">
+                                    <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-gas-deep to-gas-neon flex items-center justify-center font-extrabold text-[#021024] text-lg shadow-flame">
+                                        НД
+                                    </div>
+                                    <div>
+                                        <div class="font-bold text-white text-base">Наталья Дорофеева</div>
+                                        <div class="text-xs text-gas-neon font-semibold">Краснодарский край</div>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <div class="flex items-center gap-0.5 text-gas-neon text-base" aria-label="Оценка 5 из 5">
+                                        <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                                    </div>
+                                    <div class="text-xs text-slate-400 mt-0.5">Ноябрь 2026</div>
+                                </div>
+                            </div>
+                            <p class="text-slate-200 text-sm sm:text-base leading-relaxed">
+                                «Успели провести газ к отопительному сезону! Отдельное спасибо за оптовую цену на настенный котёл Baxi — сэкономили больше десяти тысяч по сравнению с розничными магазинами. Всё оборудование с официальной гарантией, в доме тепло и уютно. Смело рекомендую Районную газовую компанию!»
+                            </p>
+                        </div>
+                        <div class="mt-5 pt-4 border-t border-white/10">
+                            <span class="inline-block text-xs font-bold px-3 py-1 rounded-full bg-gas-neon/15 text-gas-neon border border-gas-neon/30">
+                                Подключение газа + котёл по оптовой цене
+                            </span>
+                        </div>
+                    </article>
+                </div>
+
+                <!-- Мобильные индикаторы -->
+                <div id="review-dots" class="flex items-center justify-center gap-2.5 mt-8 md:hidden">
+                    <button type="button" data-idx="0" class="rev-dot w-8 h-2 rounded-full bg-gas-neon transition-all" aria-label="Отзыв 1"></button>
+                    <button type="button" data-idx="1" class="rev-dot w-2.5 h-2 rounded-full bg-white/25 transition-all" aria-label="Отзыв 2"></button>
+                    <button type="button" data-idx="2" class="rev-dot w-2.5 h-2 rounded-full bg-white/25 transition-all" aria-label="Отзыв 3"></button>
+                    <button type="button" data-idx="3" class="rev-dot w-2.5 h-2 rounded-full bg-white/25 transition-all" aria-label="Отзыв 4"></button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== 8. КОНТАКТЫ И ФОРМА ЗАЯВКИ (FORMSUBMIT -> 9950066600@mail.ru) ==================== -->
+        <section id="contacts" class="relative py-20 lg:py-28 overflow-hidden">
+            <div class="ambient-orb w-96 h-96 bg-gas-neon/20 -bottom-24 right-[-60px]"></div>
+
+            <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="max-w-3xl mb-12 reveal">
+                    <span class="inline-block text-xs sm:text-sm font-bold uppercase tracking-[0.2em] text-gas-neon mb-3">
+                        Свяжитесь с нами
+                    </span>
+                    <h2 class="font-display font-extrabold text-3xl sm:text-4xl lg:text-5xl text-white tracking-tight">
+                        Контакты и <span class="text-flame-gradient">заявка на расчёт</span>
+                    </h2>
+                    <p class="mt-4 text-slate-300 text-base sm:text-lg">
+                        Позвоните, приезжайте в наш офис в Горячем Ключе или отправьте заявку — она моментально поступит на почту инженера <strong class="text-white">9950066600@mail.ru</strong>.
+                    </p>
+                </div>
+
+                <div class="grid lg:grid-cols-12 gap-8 items-stretch reveal">
+                    <!-- Левая колонка: контакты и карта -->
+                    <div class="lg:col-span-6 flex flex-col gap-6">
+                        <div class="glass-static rounded-3xl p-6 sm:p-8 space-y-6 flex-1">
+                            <!-- Телефон -->
+                            <div>
+                                <div class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">
+                                    Телефон (консультации и выезд инженера)
+                                </div>
+                                <div class="flex flex-wrap items-center gap-3">
+                                    <a href="tel:+79183469298" class="font-display font-extrabold text-2xl sm:text-3xl text-white hover:text-gas-neon transition-colors">
+                                        8 (918) 346-92-98
+                                    </a>
+                                    <button type="button" onclick="copyToClipboard('8 (918) 346-92-98', 'Номер телефона скопирован!')" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-gas-neon/15 hover:bg-gas-neon/30 border border-gas-neon/40 text-xs font-bold text-gas-neon transition-all cursor-pointer">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                                        <span>Скопировать</span>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Почта, адрес, география -->
+                            <div class="grid sm:grid-cols-2 gap-5 pt-4 border-t border-white/10">
+                                <div class="flex items-start gap-3.5">
+                                    <div class="w-10 h-10 rounded-xl bg-gas-neon/15 border border-gas-sky/35 flex items-center justify-center text-gas-neon flex-shrink-0">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                                    </div>
+                                    <div>
+                                        <div class="text-xs font-bold uppercase tracking-wider text-slate-400">Адрес офиса</div>
+                                        <div class="text-white font-bold mt-0.5">г. Горячий Ключ, ул. Ворошилова, 10</div>
+                                    </div>
+                                </div>
+
+                                <div class="flex items-start gap-3.5">
+                                    <div class="w-10 h-10 rounded-xl bg-gas-neon/15 border border-gas-sky/35 flex items-center justify-center text-gas-neon flex-shrink-0">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                                    </div>
+                                    <div>
+                                        <div class="text-xs font-bold uppercase tracking-wider text-slate-400">Почта для заявок</div>
+                                        <a href="mailto:9950066600@mail.ru" class="text-gas-neon hover:text-white font-bold mt-0.5 block transition-colors break-all">
+                                            9950066600@mail.ru
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <div class="sm:col-span-2 flex items-start gap-3.5 pt-2 border-t border-white/10">
+                                    <div class="w-10 h-10 rounded-xl bg-gas-neon/15 border border-gas-sky/35 flex items-center justify-center text-gas-neon flex-shrink-0">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                    </div>
+                                    <div>
+                                        <div class="text-xs font-bold uppercase tracking-wider text-slate-400">География работы</div>
+                                        <div class="text-white font-bold mt-0.5">Работаем по всему Краснодарскому краю</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Стилизованная карта проезда и кнопка Яндекс Карт -->
+                            <div class="relative rounded-2xl overflow-hidden border border-gas-sky/30 bg-[#020C1D] h-52">
+                                <svg class="w-full h-full object-cover opacity-85" viewBox="0 0 600 260" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                    <defs>
+                                        <pattern id="mapGrid" width="40" height="40" patternUnits="userSpaceOnUse">
+                                            <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(142,216,255,0.09)" stroke-width="1"/>
+                                        </pattern>
+                                        <radialGradient id="pinGlow" cx="50%" cy="50%" r="50%">
+                                            <stop offset="0%" stop-color="#00D4FF" stop-opacity="0.5"/>
+                                            <stop offset="100%" stop-color="#0066FF" stop-opacity="0"/>
+                                        </radialGradient>
+                                    </defs>
+                                    <rect width="600" height="260" fill="url(#mapGrid)"/>
+                                    <path d="M-10 212 C125 188, 215 152, 325 130 C435 108, 515 74, 620 44" stroke="rgba(0,212,255,0.38)" stroke-width="6" stroke-linecap="round"/>
+                                    <path d="M90 -10 L185 270" stroke="rgba(142,216,255,0.16)" stroke-width="3"/>
+                                    <path d="M270 -10 L330 270" stroke="rgba(142,216,255,0.3)" stroke-width="4"/>
+                                    <path d="M-10 95 L610 155" stroke="rgba(142,216,255,0.18)" stroke-width="3"/>
+                                    <path d="M445 -10 L475 270" stroke="rgba(142,216,255,0.15)" stroke-width="2.5"/>
+                                    <circle cx="305" cy="128" r="82" fill="url(#pinGlow)"/>
+                                    <circle cx="305" cy="128" r="24" stroke="#8ED8FF" stroke-opacity="0.5" stroke-width="1.5" stroke-dasharray="4 4"/>
+                                    <circle cx="305" cy="128" r="9" fill="#00D4FF"/>
+                                    <circle cx="305" cy="128" r="4" fill="#002447"/>
+                                </svg>
+
+                                <div class="absolute inset-x-4 bottom-4 flex flex-wrap items-center justify-between gap-3">
+                                    <div class="px-3.5 py-2 rounded-xl bg-[#020B18]/90 border border-gas-ring/40 backdrop-blur-md text-xs sm:text-sm font-bold text-white">
+                                        г. Горячий Ключ, ул. Ворошилова, 10
+                                    </div>
+                                    <a href="https://yandex.ru/maps/?text=%D0%B3.%20%D0%93%D0%BE%D1%80%D1%8F%D1%87%D0%B8%D0%B9%20%D0%9A%D0%BB%D1%8E%D1%87%2C%20%D1%83%D0%BB.%20%D0%92%D0%BE%D1%80%D0%BE%D1%88%D0%B8%D0%BB%D0%BE%D0%B2%D0%B0%2C%2010" target="_blank" rel="noopener noreferrer" class="btn-flame px-4 py-2 rounded-xl text-xs sm:text-sm inline-flex items-center gap-1.5">
+                                        <span>Открыть маршрут в Яндекс Картах</span>
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Правая колонка: Основная форма с реальной отправкой на 9950066600@mail.ru -->
+                    <div class="lg:col-span-6">
+                        <div id="contact-form-card" class="glass-static rounded-3xl p-6 sm:p-8 h-full flex flex-col justify-between transition-all">
+                            <div>
+                                <h3 class="font-display font-bold text-2xl text-white mb-2">
+                                    Оставить заявку на газификацию
+                                </h3>
+                                <p class="text-slate-300 text-sm sm:text-base mb-6">
+                                    Заполните форму — данные сразу отправятся на почту <span class="text-gas-neon font-semibold">9950066600@mail.ru</span>, и наш инженер свяжется с вами.
+                                </p>
+
+                                <form id="contact-form" action="https://formsubmit.co/9950066600@mail.ru" method="POST" class="space-y-4" novalidate>
+                                    <!-- Служебные скрытые поля FormSubmit -->
+                                    <input type="hidden" name="_subject" value="Новая заявка с сайта РГК — Газификация">
+                                    <input type="hidden" name="_template" value="table">
+                                    <input type="hidden" name="_captcha" value="false">
+                                    <input type="hidden" name="Источник" value="Основная форма на сайте РГК">
+                                    <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
+
+                                    <div class="grid sm:grid-cols-2 gap-4">
+                                        <div>
+                                            <label for="contact-name" class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-2">
+                                                Ваше имя *
+                                            </label>
+                                            <input id="contact-name" name="Имя" type="text" required placeholder="Например, Алексей" class="w-full px-4 py-3.5 rounded-xl bg-[#020B18]/90 border border-gas-sky/30 text-white placeholder-slate-500 focus:outline-none focus:border-gas-neon focus:ring-2 focus:ring-gas-neon/25 transition-all">
+                                        </div>
+
+                                        <div>
+                                            <label for="contact-phone" class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-2">
+                                                Телефон *
+                                            </label>
+                                            <input id="contact-phone" name="Телефон" type="tel" required placeholder="+7 (9__) ___-__-__" class="phone-mask w-full px-4 py-3.5 rounded-xl bg-[#020B18]/90 border border-gas-sky/30 text-white placeholder-slate-500 focus:outline-none focus:border-gas-neon focus:ring-2 focus:ring-gas-neon/25 transition-all">
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <label for="contact-city" class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-2">
+                                            Населённый пункт
+                                        </label>
+                                        <input id="contact-city" name="Населённый пункт" type="text" placeholder="Например, г. Горячий Ключ или ст. Саратовская" class="w-full px-4 py-3.5 rounded-xl bg-[#020B18]/90 border border-gas-sky/30 text-white placeholder-slate-500 focus:outline-none focus:border-gas-neon focus:ring-2 focus:ring-gas-neon/25 transition-all">
+                                    </div>
+
+                                    <div>
+                                        <label for="contact-comment" class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-2">
+                                            Комментарий / расчёт из калькулятора
+                                        </label>
+                                        <textarea id="contact-comment" name="Комментарий" rows="4" placeholder="Опишите ваш дом или выберите комплектацию в калькуляторе выше" class="w-full px-4 py-3.5 rounded-xl bg-[#020B18]/90 border border-gas-sky/30 text-white placeholder-slate-500 focus:outline-none focus:border-gas-neon focus:ring-2 focus:ring-gas-neon/25 transition-all resize-none text-sm"></textarea>
+                                    </div>
+
+                                    <p id="contact-error" class="hidden text-sm text-rose-400 font-semibold"></p>
+
+                                    <button id="contact-submit-btn" type="submit" class="btn-flame w-full py-4 rounded-2xl text-base flex items-center justify-center gap-2.5 cursor-pointer">
+                                        <span>Отправить заявку</span>
+                                    </button>
+
+                                    <p class="text-xs text-slate-400 text-center">
+                                        Нажимая кнопку, вы соглашаетесь на обработку контактных данных для обратной связи.
+                                    </p>
+                                </form>
+
+                                <!-- Подтверждение успешной отправки -->
+                                <div id="contact-success" class="hidden text-center py-8 space-y-4">
+                                    <div class="w-16 h-16 mx-auto rounded-2xl bg-gas-neon/20 border border-gas-neon flex items-center justify-center text-gas-neon shadow-flame">
+                                        <svg class="w-9 h-9" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                                    </div>
+                                    <h4 class="font-display font-extrabold text-2xl text-white">Заявка успешно отправлена!</h4>
+                                    <p class="text-slate-200 text-sm sm:text-base max-w-md mx-auto leading-relaxed">
+                                        Ваши данные доставлены на почту <strong class="text-gas-neon">9950066600@mail.ru</strong>. Инженер «Районной газовой компании» скоро перезвонит вам.
+                                    </p>
+                                    <button type="button" onclick="resetFormState('contact')" class="btn-outline-flame px-6 py-2.5 rounded-xl text-sm font-bold cursor-pointer">
+                                        Отправить ещё одну заявку
+                                    </button>
+                                </div>
+
+                                <!-- Запасной блок прямой отправки через почтовый клиент (если сеть или AJAX заблокированы) -->
+                                <div id="contact-fallback" class="hidden rounded-2xl bg-amber-500/10 border border-amber-400/40 p-5 space-y-4 mt-4">
+                                    <div class="flex items-start gap-3">
+                                        <svg class="w-6 h-6 text-amber-300 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+                                        <div class="text-sm text-slate-200 leading-relaxed">
+                                            <strong class="text-white block mb-1">Онлайн-отправка временно недоступна в текущем режиме просмотра</strong>
+                                            Чтобы заявка гарантированно не потерялась, отправьте её напрямую через ваш почтовый клиент (все данные уже подставлены) или позвоните по номеру <a href="tel:+79183469298" class="text-gas-neon font-bold underline">8 (918) 346-92-98</a>.
+                                        </div>
+                                    </div>
+                                    <div class="flex flex-col sm:flex-row gap-3">
+                                        <a id="contact-mailto-link" href="mailto:9950066600@mail.ru" class="btn-flame flex-1 py-3 px-4 rounded-xl text-sm text-center">
+                                            Отправить через почтовый клиент (9950066600@mail.ru)
+                                        </a>
+                                        <button type="button" onclick="hideFallback('contact')" class="btn-outline-flame py-3 px-4 rounded-xl text-xs font-bold cursor-pointer">
+                                            Повторить
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ==================== 9. ПОДВАЛ (FOOTER) С ФИРМЕННЫМ ЛОГОТИПОМ РГК ==================== -->
+    <footer class="relative border-t border-gas-sky/20 bg-[#010711] pt-14 pb-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-12 gap-10 pb-10 border-b border-white/10 items-start">
+                <!-- Логотип и описание -->
+                <div class="md:col-span-5 flex flex-col sm:flex-row items-start gap-5">
+                    <a href="#hero" class="w-24 h-24 flex-shrink-0 block hover:scale-105 transition-transform">
+                        <svg class="w-full h-full" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="РГК — Районная газовая компания">
+                            <defs>
+                                <filter id="ftrRingGlow" x="-20%" y="-20%" width="140%" height="140%">
+                                    <feGaussianBlur stdDeviation="5" result="blur"/>
+                                    <feMerge>
+                                        <feMergeNode in="blur"/>
+                                        <feMergeNode in="SourceGraphic"/>
+                                    </feMerge>
+                                </filter>
+                            </defs>
+                            <circle cx="200" cy="200" r="184" fill="#002447"/>
+                            <circle cx="200" cy="200" r="181" stroke="#8ED8FF" stroke-width="5" filter="url(#ftrRingGlow)"/>
+                            <path d="M174 223 C140 198 134 156 163 108 C164 121 169 130 176 136 C168 102 183 70 218 49 C208 75 215 95 234 119 C264 157 256 200 226 223 C240 194 240 160 214 130 C208 122 204 112 204 101 C191 119 188 150 202 181 C185 176 173 168 167 159 C159 182 162 204 174 223 Z" fill="#FFFFFF"/>
+                            <text x="200" y="222" text-anchor="middle" fill="#FFFFFF" font-family="Oswald, Arial Narrow, sans-serif" font-weight="600" font-size="42" letter-spacing="1">РГК</text>
+                            <text x="200" y="272" text-anchor="middle" fill="#FFFFFF" font-family="Oswald, Arial Narrow, sans-serif" font-weight="700" font-size="45">РАЙОННАЯ</text>
+                            <text x="200" y="316" text-anchor="middle" fill="#FFFFFF" font-family="Oswald, Arial Narrow, sans-serif" font-weight="700" font-size="52">ГАЗОВАЯ</text>
+                            <text x="200" y="352" text-anchor="middle" fill="#FFFFFF" font-family="Oswald, Arial Narrow, sans-serif" font-weight="700" font-size="40">КОМПАНИЯ</text>
+                        </svg>
+                    </a>
+                    <div class="space-y-2.5">
+                        <div class="font-display font-extrabold text-white text-lg">Районная газовая компания</div>
+                        <div class="text-xs font-semibold text-gas-neon">Газификация • Подключение газа • Догазификация</div>
+                        <p class="text-sm text-slate-400 leading-relaxed">
+                            Полный цикл газификации частного сектора под ключ по всему Краснодарскому краю. Собственное производство вентиляции 150–300 мм и оптовые цены на оборудование.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Навигация -->
+                <div class="md:col-span-3 space-y-3">
+                    <div class="text-xs font-bold uppercase tracking-wider text-slate-400">Навигация</div>
+                    <ul class="space-y-2 text-sm text-slate-300">
+                        <li><a href="#services" class="hover:text-gas-neon transition-colors">Что мы делаем</a></li>
+                        <li><a href="#turnkey" class="hover:text-gas-neon transition-colors">Под ключ — 135 000 ₽</a></li>
+                        <li><a href="#calculator" class="hover:text-gas-neon transition-colors">Калькулятор стоимости</a></li>
+                        <li><a href="#steps" class="hover:text-gas-neon transition-colors">Этапы работы</a></li>
+                        <li><a href="#reviews" class="hover:text-gas-neon transition-colors">Отзывы клиентов</a></li>
+                    </ul>
+                </div>
+
+                <!-- Контакты -->
+                <div class="md:col-span-4 space-y-2.5 text-sm text-slate-300">
+                    <div class="text-xs font-bold uppercase tracking-wider text-slate-400">Контакты</div>
+                    <div>
+                        <a href="tel:+79183469298" class="text-xl font-display font-extrabold text-white hover:text-gas-neon transition-colors">
+                            8 (918) 346-92-98
+                        </a>
+                    </div>
+                    <div>
+                        <a href="mailto:9950066600@mail.ru" class="text-gas-neon hover:text-white font-semibold transition-colors">
+                            9950066600@mail.ru
+                        </a>
+                    </div>
+                    <div>г. Горячий Ключ, ул. Ворошилова, 10</div>
+                    <div class="text-gas-sky">Работаем по всему Краснодарскому краю</div>
+                </div>
+            </div>
+
+            <div class="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+                <div>© 2026 Районная газовая компания (РГК). Все права защищены.</div>
+                <div>Информация на сайте носит справочный характер и не является публичной офертой.</div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ==================== ПЛАВАЮЩАЯ КНОПКА ЗАЯВКИ / ЗВОНКА ==================== -->
+    <div class="fixed bottom-5 right-5 z-40">
+        <button type="button" onclick="openCallbackModal()" aria-label="Оставить заявку или заказать звонок" class="pulse-ring relative w-14 h-14 sm:w-16 sm:h-16 rounded-full btn-flame flex items-center justify-center shadow-flame-strong cursor-pointer">
+            <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+            </svg>
+        </button>
+    </div>
+
+    <!-- ==================== МОДАЛЬНОЕ ОКНО ЗАКАЗА ЗВОНКА (FORMSUBMIT -> 9950066600@mail.ru) ==================== -->
+    <div id="callback-modal" class="fixed inset-0 z-[60] hidden items-center justify-center p-4 bg-[#010712]/82 backdrop-blur-md" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+        <div class="relative w-full max-w-md rounded-3xl p-[1.5px] bg-gradient-to-br from-gas-neon/80 via-gas-sky/45 to-gas-deep/55 shadow-flame-strong max-h-[92vh] overflow-y-auto">
+            <div class="relative rounded-[22px] bg-[#04142A] p-6 sm:p-8">
+                <button type="button" onclick="closeCallbackModal()" aria-label="Закрыть окно" class="absolute top-4 right-4 w-9 h-9 rounded-xl bg-white/5 hover:bg-white/15 border border-white/10 flex items-center justify-center text-slate-300 hover:text-white transition-colors cursor-pointer">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+                </button>
+
+                <div id="modal-form-wrap">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gas-neon/15 border border-gas-neon/35 text-xs font-bold text-gas-neon mb-3">
+                        Бесплатная консультация инженера
+                    </div>
+                    <h3 id="modal-title" class="font-display font-extrabold text-2xl text-white">
+                        Заказать звонок
+                    </h3>
+                    <p class="text-sm text-slate-300 mt-1.5 mb-5">
+                        Заявка поступит на почту <span class="text-gas-neon font-semibold">9950066600@mail.ru</span> — перезвоним в ближайшее время.
+                    </p>
+
+                    <form id="modal-form" action="https://formsubmit.co/9950066600@mail.ru" method="POST" class="space-y-3.5" novalidate>
+                        <input type="hidden" name="_subject" value="Новая заявка с сайта РГК — Газификация">
+                        <input type="hidden" name="_template" value="table">
+                        <input type="hidden" name="_captcha" value="false">
+                        <input type="hidden" name="Источник" value="Модальное окно «Заказать звонок»">
+                        <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
+
+                        <div>
+                            <label for="modal-name" class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">Ваше имя *</label>
+                            <input id="modal-name" name="Имя" type="text" required placeholder="Иван" class="w-full px-4 py-3 rounded-xl bg-[#020B18] border border-gas-sky/30 text-white placeholder-slate-500 focus:outline-none focus:border-gas-neon transition-colors">
+                        </div>
+
+                        <div>
+                            <label for="modal-phone" class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">Телефон *</label>
+                            <input id="modal-phone" name="Телефон" type="tel" required placeholder="+7 (9__) ___-__-__" class="phone-mask w-full px-4 py-3 rounded-xl bg-[#020B18] border border-gas-sky/30 text-white placeholder-slate-500 focus:outline-none focus:border-gas-neon transition-colors">
+                        </div>
+
+                        <div>
+                            <label for="modal-city" class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">Населённый пункт</label>
+                            <input id="modal-city" name="Населённый пункт" type="text" placeholder="г. Горячий Ключ" class="w-full px-4 py-3 rounded-xl bg-[#020B18] border border-gas-sky/30 text-white placeholder-slate-500 focus:outline-none focus:border-gas-neon transition-colors">
+                        </div>
+
+                        <div>
+                            <label for="modal-comment" class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">Комментарий</label>
+                            <textarea id="modal-comment" name="Комментарий" rows="3" placeholder="Ваш вопрос или нужные работы" class="w-full px-4 py-3 rounded-xl bg-[#020B18] border border-gas-sky/30 text-white placeholder-slate-500 focus:outline-none focus:border-gas-neon transition-colors resize-none text-sm"></textarea>
+                        </div>
+
+                        <p id="modal-error" class="hidden text-sm text-rose-400 font-semibold"></p>
+
+                        <button id="modal-submit-btn" type="submit" class="btn-flame w-full py-3.5 rounded-xl text-base flex items-center justify-center gap-2 cursor-pointer">
+                            <span>Жду звонка</span>
+                        </button>
+                    </form>
+
+                    <!-- Запасной блок прямой отправки для модального окна -->
+                    <div id="modal-fallback" class="hidden rounded-2xl bg-amber-500/10 border border-amber-400/40 p-4 space-y-3 mt-4">
+                        <p class="text-xs sm:text-sm text-slate-200 leading-relaxed">
+                            <strong class="text-white block mb-1">Прямая AJAX-отправка недоступна в этой среде.</strong>
+                            Отправьте уже заполненную заявку через почтовый клиент или позвоните: <a href="tel:+79183469298" class="text-gas-neon font-bold underline">8 (918) 346-92-98</a>.
+                        </p>
+                        <a id="modal-mailto-link" href="mailto:9950066600@mail.ru" class="btn-flame block w-full py-3 px-4 rounded-xl text-xs sm:text-sm text-center">
+                            Отправить через почтовый клиент
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Успех в модальном окне -->
+                <div id="modal-success" class="hidden text-center py-6 space-y-4">
+                    <div class="w-16 h-16 mx-auto rounded-2xl bg-gas-neon/20 border border-gas-neon flex items-center justify-center text-gas-neon shadow-flame">
+                        <svg class="w-9 h-9" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                    </div>
+                    <h4 class="font-display font-extrabold text-2xl text-white">Заявка отправлена!</h4>
+                    <p class="text-sm text-slate-200 leading-relaxed">
+                        Ваше обращение отправлено на почту <strong class="text-gas-neon">9950066600@mail.ru</strong>. Инженер скоро перезвонит.
+                        <a href="tel:+79183469298" class="block mt-2 font-extrabold text-white text-base">8 (918) 346-92-98</a>
+                    </p>
+                    <button type="button" onclick="closeCallbackModal()" class="btn-outline-flame px-6 py-2.5 rounded-xl text-sm font-bold cursor-pointer">
+                        Закрыть
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== ВСПЛЫВАЮЩЕЕ УВЕДОМЛЕНИЕ (TOAST) ==================== -->
+    <div id="toast-container" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-[70] pointer-events-none opacity-0 translate-y-4">
+        <div class="px-5 py-3 rounded-2xl bg-[#002447]/95 border border-gas-ring/60 text-white text-sm font-bold shadow-flame-strong backdrop-blur-md flex items-center gap-2.5">
+            <span class="w-2.5 h-2.5 rounded-full bg-gas-neon"></span>
+            <span id="toast-message">Готово</span>
+        </div>
+    </div>
+
+    <!-- ==================== JAVASCRIPT: CANVAS ПЛАМЕНИ, КАЛЬКУЛЯТОР, FORMSUBMIT ==================== -->
+    <script>
+        /* ============================================================
+           1. HTML5 CANVAS АНИМАЦИЯ ГОЛУБОГО ПЛАМЕНИ ПРИРОДНОГО ГАЗА
+           ============================================================ */
+        (function initGasFlameCanvas() {
+            const canvas = document.getElementById('gas-flame-canvas');
+            const heroSection = document.getElementById('hero');
+            if (!canvas || !heroSection) return;
+
+            const ctx = canvas.getContext('2d');
+            if (!ctx) return;
+
+            let width = 0;
+            let height = 0;
+            let dpr = Math.min(window.devicePixelRatio || 1, 2);
+            let isHeroVisible = true;
+            let animFrameId = null;
+            let time = 0;
+
+            const pointer = { x: 0.5, targetX: 0.5 };
+            const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+            const flameWisps = [];
+            const sparks = [];
+
+            function resizeCanvas() {
+                const rect = heroSection.getBoundingClientRect();
+                width = rect.width;
+                height = rect.height;
+                dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+                canvas.width = Math.floor(width * dpr);
+                canvas.height = Math.floor(height * dpr);
+                ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+                rebuildParticles();
+            }
+
+            function createWisp(randomY = false) {
+                return {
+                    x: Math.random() * width,
+                    y: randomY ? height - Math.random() * (height * 0.52) : height + 20 + Math.random() * 50,
+                    vx: (Math.random() - 0.5) * 0.42,
+                    vy: -(0.75 + Math.random() * 1.4),
+                    radius: 36 + Math.random() * 78,
+                    life: randomY ? Math.random() : 0,
+                    decay: 0.0032 + Math.random() * 0.004,
+                    wobbleSpeed: 0.015 + Math.random() * 0.025,
+                    wobblePhase: Math.random() * Math.PI * 2,
+                    hueType: Math.random()
+                };
+            }
+
+            function createSpark(randomY = false) {
+                return {
+                    x: Math.random() * width,
+                    y: randomY ? Math.random() * height : height + 10 + Math.random() * 60,
+                    vx: (Math.random() - 0.5) * 0.55,
+                    vy: -(0.6 + Math.random() * 1.35),
+                    size: 1.1 + Math.random() * 2.3,
+                    alpha: 0.35 + Math.random() * 0.65,
+                    phase: Math.random() * Math.PI * 2
+                };
+            }
+
+            function rebuildParticles() {
+                flameWisps.length = 0;
+                sparks.length = 0;
+                const isMobile = width < 768;
+                const wispCount = isMobile ? 24 : 46;
+                const sparkCount = isMobile ? 28 : 58;
+
+                for (let i = 0; i < wispCount; i++) flameWisps.push(createWisp(true));
+                for (let i = 0; i < sparkCount; i++) sparks.push(createSpark(true));
+            }
+
+            function drawGasBurnerWaves(t) {
+                const sway = (pointer.x - 0.5) * 42;
+                const baseY = height + 10;
+
+                const layers = [
+                    { amp: 46, freq: 0.0042, speed: 0.022, heightOffset: height * 0.28, colorTop: 'rgba(0, 102, 255, 0.26)', colorMid: 'rgba(0, 212, 255, 0.14)' },
+                    { amp: 35, freq: 0.0068, speed: -0.029, heightOffset: height * 0.2, colorTop: 'rgba(0, 212, 255, 0.32)', colorMid: 'rgba(56, 189, 248, 0.17)' },
+                    { amp: 24, freq: 0.0102, speed: 0.04, heightOffset: height * 0.12, colorTop: 'rgba(142, 216, 255, 0.38)', colorMid: 'rgba(224, 247, 255, 0.22)' }
+                ];
+
+                layers.forEach((layer, idx) => {
+                    ctx.beginPath();
+                    ctx.moveTo(0, baseY);
+
+                    const step = Math.max(20, Math.floor(width / 36));
+                    for (let x = 0; x <= width + step; x += step) {
+                        const wave1 = Math.sin(x * layer.freq + t * layer.speed + idx * 1.7) * layer.amp;
+                        const wave2 = Math.cos(x * (layer.freq * 1.9) - t * (layer.speed * 1.4)) * (layer.amp * 0.45);
+                        const edgeBoost = 1 - Math.abs((x / width) - 0.5) * 0.45;
+                        const y = height - (layer.heightOffset + (wave1 + wave2) * edgeBoost);
+                        ctx.lineTo(x + sway * (idx * 0.15), y);
+                    }
+
+                    ctx.lineTo(width, baseY);
+                    ctx.closePath();
+
+                    const grad = ctx.createLinearGradient(0, height - layer.heightOffset - layer.amp, 0, height);
+                    grad.addColorStop(0, 'rgba(0, 212, 255, 0)');
+                    grad.addColorStop(0.45, layer.colorMid);
+                    grad.addColorStop(1, layer.colorTop);
+
+                    ctx.fillStyle = grad;
+                    ctx.fill();
+                });
+            }
+
+            function renderFrame() {
+                if (!isHeroVisible) {
+                    animFrameId = null;
+                    return;
+                }
+
+                time += 1;
+                pointer.x += (pointer.targetX - pointer.x) * 0.05;
+                ctx.clearRect(0, 0, width, height);
+
+                ctx.save();
+                ctx.globalCompositeOperation = 'lighter';
+
+                drawGasBurnerWaves(time);
+
+                const wind = (pointer.x - 0.5) * 0.6;
+                for (let i = 0; i < flameWisps.length; i++) {
+                    const p = flameWisps[i];
+                    p.life += p.decay;
+                    if (p.life >= 1 || p.y < -p.radius) {
+                        flameWisps[i] = createWisp(false);
+                        continue;
+                    }
+
+                    p.x += p.vx + wind + Math.sin(time * p.wobbleSpeed + p.wobblePhase) * 0.52;
+                    p.y += p.vy;
+
+                    const fadeIn = Math.min(p.life * 4, 1);
+                    const fadeOut = 1 - p.life;
+                    const alpha = fadeIn * fadeOut * 0.24;
+                    const currentR = p.radius * (1 - p.life * 0.45);
+
+                    const grad = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, currentR);
+                    if (p.hueType > 0.55) {
+                        grad.addColorStop(0, `rgba(142, 216, 255, ${alpha})`);
+                        grad.addColorStop(0.45, `rgba(0, 212, 255, ${alpha * 0.65})`);
+                        grad.addColorStop(1, 'rgba(0, 102, 255, 0)');
+                    } else {
+                        grad.addColorStop(0, `rgba(56, 189, 248, ${alpha * 0.9})`);
+                        grad.addColorStop(0.5, `rgba(0, 115, 255, ${alpha * 0.55})`);
+                        grad.addColorStop(1, 'rgba(0, 60, 180, 0)');
+                    }
+
+                    ctx.fillStyle = grad;
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, currentR, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+
+                for (let i = 0; i < sparks.length; i++) {
+                    const s = sparks[i];
+                    s.x += s.vx + wind * 0.45 + Math.sin(time * 0.03 + s.phase) * 0.3;
+                    s.y += s.vy;
+
+                    if (s.y < -10 || s.x < -10 || s.x > width + 10) {
+                        sparks[i] = createSpark(false);
+                        continue;
+                    }
+
+                    const heightRatio = Math.max(0, Math.min(1, s.y / height));
+                    const twinkle = 0.6 + 0.4 * Math.sin(time * 0.08 + s.phase);
+                    const finalAlpha = s.alpha * twinkle * Math.min(1, heightRatio * 1.4);
+
+                    ctx.fillStyle = `rgba(224, 247, 255, ${finalAlpha})`;
+                    ctx.beginPath();
+                    ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+
+                ctx.restore();
+
+                if (!prefersReducedMotion) {
+                    animFrameId = requestAnimationFrame(renderFrame);
+                }
+            }
+
+            heroSection.addEventListener('mousemove', (e) => {
+                const rect = heroSection.getBoundingClientRect();
+                pointer.targetX = (e.clientX - rect.left) / Math.max(rect.width, 1);
+            });
+
+            if ('IntersectionObserver' in window) {
+                const heroObserver = new IntersectionObserver((entries) => {
+                    isHeroVisible = entries[0].isIntersecting;
+                    if (isHeroVisible && !animFrameId && !prefersReducedMotion) {
+                        renderFrame();
+                    }
+                }, { threshold: 0.05 });
+                heroObserver.observe(heroSection);
+            }
+
+            window.addEventListener('resize', resizeCanvas);
+            window.addEventListener('load', () => {
+                resizeCanvas();
+                renderFrame();
+            });
+            resizeCanvas();
+            renderFrame();
+        })();
+
+
+        /* ============================================================
+           2. ШАПКА ПРИ ПРОКРУТКЕ И МОБИЛЬНОЕ МЕНЮ
+           ============================================================ */
+        const header = document.getElementById('main-header');
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const burgerIcon = document.getElementById('burger-icon');
+        const closeIcon = document.getElementById('close-icon');
+
+        function handleHeaderScroll() {
+            if (window.scrollY > 24) {
+                header.classList.add('bg-[#020B18]/92', 'backdrop-blur-xl', 'border-gas-sky/20', 'shadow-lg');
+            } else {
+                header.classList.remove('bg-[#020B18]/92', 'backdrop-blur-xl', 'border-gas-sky/20', 'shadow-lg');
+            }
+        }
+        window.addEventListener('scroll', handleHeaderScroll, { passive: true });
+        handleHeaderScroll();
+
+        function closeMobileMenu() {
+            mobileMenu.classList.add('hidden');
+            burgerIcon.classList.remove('hidden');
+            closeIcon.classList.add('hidden');
+            mobileMenuBtn.setAttribute('aria-expanded', 'false');
+        }
+
+        mobileMenuBtn.addEventListener('click', () => {
+            if (mobileMenu.classList.contains('hidden')) {
+                mobileMenu.classList.remove('hidden');
+                burgerIcon.classList.add('hidden');
+                closeIcon.classList.remove('hidden');
+                mobileMenuBtn.setAttribute('aria-expanded', 'true');
+            } else {
+                closeMobileMenu();
+            }
+        });
+
+        document.querySelectorAll('.mobile-nav-link').forEach((link) => {
+            link.addEventListener('click', closeMobileMenu);
+        });
+
+
+        /* ============================================================
+           3. ПОЯВЛЕНИЕ СЕКЦИЙ ПРИ ПРОКРУТКЕ
+           ============================================================ */
+        if ('IntersectionObserver' in window) {
+            const revealObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+            document.querySelectorAll('.reveal').forEach((el) => revealObserver.observe(el));
+        } else {
+            document.querySelectorAll('.reveal').forEach((el) => el.classList.add('is-visible'));
+        }
+
+
+        /* ============================================================
+           4. ИНТЕРАКТИВНЫЙ КАЛЬКУЛЯТОР СТОИМОСТИ
+           ============================================================ */
+        const calcState = {
+            workType: 'turnkey',
+            workLabel: 'Газификация частного сектора под ключ',
+            workPrice: 135000,
+            docs: true,
+            kit: true,
+            ventType: 'none',
+            ventLabel: 'Вентиляция не нужна',
+            ventPrice: 0,
+            equipType: 'none',
+            equipLabel: 'Без оборудования',
+            equipPrice: 0
+        };
+
+        const optDocs = document.getElementById('opt-docs');
+        const optKit = document.getElementById('opt-kit');
+        const priceDocsLabel = document.getElementById('price-docs-label');
+        const priceKitLabel = document.getElementById('price-kit-label');
+        const ventPriceBadge = document.getElementById('vent-price-badge');
+        const equipPriceBadge = document.getElementById('equip-price-badge');
+        const summaryListEl = document.getElementById('calc-summary-list');
+        const totalPriceEl = document.getElementById('calc-total-price');
+
+        function formatRub(num) {
+            return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ') + ' ₽';
+        }
+
+        function isPackageWork() {
+            return calcState.workType === 'turnkey' || calcState.workType === 'dogaz';
+        }
+
+        function updateCalculatorUI() {
+            calcState.docs = optDocs.checked;
+            calcState.kit = optKit.checked;
+
+            optDocs.closest('.calc-choice').classList.toggle('is-active', calcState.docs);
+            optKit.closest('.calc-choice').classList.toggle('is-active', calcState.kit);
+
+            const packageMode = isPackageWork();
+            priceDocsLabel.textContent = packageMode ? 'Включено в пакет' : '+ 22 000 ₽';
+            priceKitLabel.textContent = packageMode ? 'Включено в пакет' : '+ 26 000 ₽';
+
+            ventPriceBadge.textContent = calcState.ventPrice > 0 ? '+ ' + formatRub(calcState.ventPrice) : '0 ₽';
+            equipPriceBadge.textContent = calcState.equipPrice > 0 ? '+ ' + formatRub(calcState.equipPrice) : '0 ₽';
+
+            let total = calcState.workPrice;
+            const items = [];
+
+            if (calcState.workType !== 'ventonly') {
+                items.push({ name: calcState.workLabel, price: formatRub(calcState.workPrice) });
+            }
+
+            if (calcState.docs) {
+                if (packageMode) {
+                    items.push({ name: 'Документальное сопровождение', price: 'Включено' });
+                } else {
+                    total += 22000;
+                    items.push({ name: 'Документальное сопровождение', price: '22 000 ₽' });
+                }
+            }
+
+            if (calcState.kit) {
+                if (packageMode) {
+                    items.push({ name: 'Монтажный комплект (ящик, счётчик, подводка, краны)', price: 'Включено' });
+                } else {
+                    total += 26000;
+                    items.push({ name: 'Полный монтажный комплект «Всё включено»', price: '26 000 ₽' });
+                }
+            }
+
+            if (calcState.ventType !== 'none') {
+                total += calcState.ventPrice;
+                items.push({ name: calcState.ventLabel, price: formatRub(calcState.ventPrice) });
+            }
+
+            if (calcState.equipType !== 'none') {
+                total += calcState.equipPrice;
+                items.push({ name: calcState.equipLabel, price: formatRub(calcState.equipPrice) });
+            }
+
+            if (items.length === 0) {
+                summaryListEl.innerHTML = '<li class="text-slate-400 italic">Выберите диаметр вентиляции или дополнительные услуги слева.</li>';
+            } else {
+                summaryListEl.innerHTML = items.map(item => `
+                    <li class="flex items-start justify-between gap-3">
+                        <span class="flex items-start gap-2">
+                            <span class="mt-1.5 w-2 h-2 rounded-full bg-gas-neon flex-shrink-0"></span>
+                            <span>${item.name}</span>
+                        </span>
+                        <span class="font-bold text-gas-neon whitespace-nowrap">${item.price}</span>
+                    </li>
+                `).join('');
+            }
+
+            totalPriceEl.textContent = formatRub(total);
+        }
+
+        // Выбор типа работ
+        document.querySelectorAll('.work-type-btn').forEach((btn) => {
+            btn.addEventListener('click', () => {
+                calcState.workType = btn.dataset.work;
+                calcState.workPrice = parseInt(btn.dataset.price, 10);
+                calcState.workLabel = btn.dataset.label;
+
+                document.querySelectorAll('.work-type-btn').forEach((b) => b.classList.remove('is-active'));
+                btn.classList.add('is-active');
+
+                if (calcState.workType === 'turnkey' || calcState.workType === 'dogaz') {
+                    optDocs.checked = true;
+                    optKit.checked = true;
+                } else if (calcState.workType === 'ventonly') {
+                    optDocs.checked = false;
+                    optKit.checked = false;
+                    // Если вентиляция ещё не выбрана — автоматически подставим 200 мм
+                    if (calcState.ventType === 'none') {
+                        const vent200Btn = document.querySelector('.vent-btn[data-vent="200"]');
+                        if (vent200Btn) vent200Btn.click();
+                    }
+                }
+                updateCalculatorUI();
+            });
+        });
+
+        optDocs.addEventListener('change', updateCalculatorUI);
+        optKit.addEventListener('change', updateCalculatorUI);
+
+        // Выбор диаметра вентиляции
+        document.querySelectorAll('.vent-btn').forEach((btn) => {
+            btn.addEventListener('click', () => {
+                calcState.ventType = btn.dataset.vent;
+                calcState.ventPrice = parseInt(btn.dataset.price, 10);
+                calcState.ventLabel = btn.dataset.label;
+
+                document.querySelectorAll('.vent-btn').forEach((b) => b.classList.remove('is-active'));
+                btn.classList.add('is-active');
+                updateCalculatorUI();
+            });
+        });
+
+        // Выбор газового оборудования по оптовым ценам
+        document.querySelectorAll('.equip-btn').forEach((btn) => {
+            btn.addEventListener('click', () => {
+                calcState.equipType = btn.dataset.equip;
+                calcState.equipPrice = parseInt(btn.dataset.price, 10);
+                calcState.equipLabel = btn.dataset.label;
+
+                document.querySelectorAll('.equip-btn').forEach((b) => b.classList.remove('is-active'));
+                btn.classList.add('is-active');
+                updateCalculatorUI();
+            });
+        });
+
+        // Кнопка «Отправить расчёт в заявку»: плавно скроллит к форме и подставляет расчёт в комментарий
+        function applyCalculatorToContactForm() {
+            const parts = [];
+            if (calcState.workType !== 'ventonly') {
+                parts.push(calcState.workLabel);
+            }
+            if (calcState.docs) parts.push('Документальное сопровождение');
+            if (calcState.kit) parts.push('Полный монтажный комплект (ящик, счётчик, подводка, краны)');
+            if (calcState.ventType !== 'none') parts.push(calcState.ventLabel);
+            if (calcState.equipType !== 'none') parts.push(calcState.equipLabel);
+
+            const summaryText = `Расчёт из калькулятора:\n• ${parts.join('\n• ')}\nОриентировочная стоимость: ${totalPriceEl.textContent}`;
+
+            // Если ранее была показана плашка успеха, вернём форму
+            resetFormState('contact');
+
+            const commentField = document.getElementById('contact-comment');
+            const nameField = document.getElementById('contact-name');
+            const formCard = document.getElementById('contact-form-card');
+
+            commentField.value = summaryText;
+
+            const contactsSection = document.getElementById('contacts');
+            contactsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+            setTimeout(() => {
+                formCard.classList.remove('form-flash');
+                void formCard.offsetWidth;
+                formCard.classList.add('form-flash');
+                nameField.focus({ preventScroll: true });
+                showToast('Расчёт перенесён в заявку — заполните имя и телефон');
+            }, 550);
+        }
+
+        updateCalculatorUI();
+
+
+        /* ============================================================
+           5. ИНТЕРАКТИВНЫЕ ОТЗЫВЫ
+           ============================================================ */
+        const reviewCards = Array.from(document.querySelectorAll('.review-card'));
+        const revDots = Array.from(document.querySelectorAll('.rev-dot'));
+        let activeReviewIdx = 0;
+
+        function renderReviewsView() {
+            const isMobile = window.innerWidth < 768;
+            reviewCards.forEach((card, idx) => {
+                if (isMobile) {
+                    card.classList.toggle('hidden', idx !== activeReviewIdx);
+                    card.classList.remove('ring-2', 'ring-gas-neon/60');
+                } else {
+                    card.classList.remove('hidden');
+                    card.classList.toggle('ring-2', idx === activeReviewIdx);
+                    card.classList.toggle('ring-gas-neon/60', idx === activeReviewIdx);
+                }
+            });
+
+            revDots.forEach((dot, idx) => {
+                if (idx === activeReviewIdx) {
+                    dot.classList.remove('w-2.5', 'bg-white/25');
+                    dot.classList.add('w-8', 'bg-gas-neon');
+                } else {
+                    dot.classList.remove('w-8', 'bg-gas-neon');
+                    dot.classList.add('w-2.5', 'bg-white/25');
+                }
+            });
+        }
+
+        document.getElementById('rev-prev').addEventListener('click', () => {
+            activeReviewIdx = (activeReviewIdx - 1 + reviewCards.length) % reviewCards.length;
+            renderReviewsView();
+        });
+
+        document.getElementById('rev-next').addEventListener('click', () => {
+            activeReviewIdx = (activeReviewIdx + 1) % reviewCards.length;
+            renderReviewsView();
+        });
+
+        revDots.forEach((dot) => {
+            dot.addEventListener('click', () => {
+                activeReviewIdx = parseInt(dot.dataset.idx, 10);
+                renderReviewsView();
+            });
+        });
+
+        window.addEventListener('resize', renderReviewsView);
+        renderReviewsView();
+
+
+        /* ============================================================
+           6. КОПИРОВАНИЕ В БУФЕР И TOAST-УВЕДОМЛЕНИЯ
+           ============================================================ */
+        let toastTimer = null;
+
+        function showToast(message) {
+            const container = document.getElementById('toast-container');
+            const msgEl = document.getElementById('toast-message');
+            msgEl.textContent = message;
+
+            container.classList.remove('opacity-0', 'translate-y-4');
+            container.classList.add('opacity-100', 'translate-y-0');
+
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => {
+                container.classList.remove('opacity-100', 'translate-y-0');
+                container.classList.add('opacity-0', 'translate-y-4');
+            }, 3000);
+        }
+
+        function copyToClipboard(text, successMsg) {
+            try {
+                const tempInput = document.createElement('textarea');
+                tempInput.value = text;
+                tempInput.setAttribute('readonly', '');
+                tempInput.style.position = 'fixed';
+                tempInput.style.opacity = '0';
+                document.body.appendChild(tempInput);
+                tempInput.select();
+                document.execCommand('copy');
+                document.body.removeChild(tempInput);
+                showToast(successMsg || 'Скопировано!');
+            } catch (err) {
+                showToast(text);
+            }
+        }
+
+
+        /* ============================================================
+           7. МАСКА ТЕЛЕФОНА +7 (9__) ___-__-__ И РЕАЛЬНАЯ ОТПРАВКА FORMSUBMIT
+           ============================================================ */
+        function applyPhoneMask(input) {
+            let digits = input.value.replace(/\D/g, '');
+            if (!digits) {
+                input.value = '';
+                return;
+            }
+            if (digits[0] === '8' || digits[0] === '7') {
+                digits = '7' + digits.slice(1);
+            } else {
+                digits = '7' + digits;
+            }
+            digits = digits.slice(0, 11);
+
+            let formatted = '+7';
+            if (digits.length > 1) formatted += ' (' + digits.slice(1, 4);
+            if (digits.length >= 4) formatted += ') ' + digits.slice(4, 7);
+            if (digits.length >= 7) formatted += '-' + digits.slice(7, 9);
+            if (digits.length >= 9) formatted += '-' + digits.slice(9, 11);
+
+            input.value = formatted;
+        }
+
+        document.querySelectorAll('.phone-mask').forEach((input) => {
+            input.addEventListener('input', () => applyPhoneMask(input));
+        });
+
+        function isValidRussianPhone(value) {
+            return value.replace(/\D/g, '').length === 11;
+        }
+
+        // Формирование резервной ссылки mailto с уже заполненными полями
+        function buildMailtoUrl(data) {
+            const subject = 'Новая заявка с сайта РГК — Газификация';
+            const bodyLines = [
+                'Заявка с сайта «Районная газовая компания» (РГК)',
+                '----------------------------------------',
+                `Имя: ${data.name}`,
+                `Телефон: ${data.phone}`,
+                `Населённый пункт: ${data.city || 'Не указан'}`,
+                `Комментарий / расчёт:\n${data.comment || 'Не указан'}`,
+                `Источник: ${data.source}`
+            ];
+            return `mailto:9950066600@mail.ru?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(bodyLines.join('\n'))}`;
+        }
+
+        // Универсальный обработчик отправки на https://formsubmit.co/ajax/9950066600@mail.ru
+        async function submitLeadForm(prefix) {
+            const form = document.getElementById(`${prefix}-form`);
+            const nameInput = document.getElementById(`${prefix}-name`);
+            const phoneInput = document.getElementById(`${prefix}-phone`);
+            const cityInput = document.getElementById(`${prefix}-city`);
+            const commentInput = document.getElementById(`${prefix}-comment`);
+            const errorEl = document.getElementById(`${prefix}-error`);
+            const submitBtn = document.getElementById(`${prefix}-submit-btn`);
+            const successBox = document.getElementById(`${prefix}-success`);
+            const fallbackBox = document.getElementById(`${prefix}-fallback`);
+            const mailtoLink = document.getElementById(`${prefix}-mailto-link`);
+
+            // Защита от спама (_honey)
+            const honeyInput = form.querySelector('input[name="_honey"]');
+            if (honeyInput && honeyInput.value.trim() !== '') {
+                return;
+            }
+
+            const nameVal = nameInput.value.trim();
+            const phoneVal = phoneInput.value.trim();
+            const cityVal = cityInput ? cityInput.value.trim() : '';
+            const commentVal = commentInput ? commentInput.value.trim() : '';
+            const sourceVal = form.querySelector('input[name="Источник"]')?.value || 'Сайт РГК';
+
+            // Валидация
+            if (nameVal.length < 2) {
+                errorEl.textContent = 'Пожалуйста, укажите ваше имя (минимум 2 символа).';
+                errorEl.classList.remove('hidden');
+                nameInput.focus();
+                return;
+            }
+
+            if (!isValidRussianPhone(phoneVal)) {
+                errorEl.textContent = 'Пожалуйста, введите полный номер телефона (+7 (9__) ___-__-__).';
+                errorEl.classList.remove('hidden');
+                phoneInput.focus();
+                return;
+            }
+
+            errorEl.classList.add('hidden');
+            fallbackBox.classList.add('hidden');
+
+            // Подготовим mailto-ссылку заранее на случай отсутствия сети/блокировки AJAX
+            const leadData = { name: nameVal, phone: phoneVal, city: cityVal, comment: commentVal, source: sourceVal };
+            mailtoLink.href = buildMailtoUrl(leadData);
+
+            // Показываем спиннер на кнопке
+            const originalBtnHtml = submitBtn.innerHTML;
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = `
+                <svg class="animate-spin w-5 h-5" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-90" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+                </svg>
+                <span>Отправляем заявку...</span>
+            `;
+
+            const payload = {
+                _subject: 'Новая заявка с сайта РГК — Газификация',
+                _template: 'table',
+                _captcha: 'false',
+                'Имя': nameVal,
+                'Телефон': phoneVal,
+                'Населённый пункт': cityVal || 'Не указан',
+                'Комментарий': commentVal || 'Без комментария',
+                'Источник': sourceVal
+            };
+
+            try {
+                const response = await fetch('https://formsubmit.co/ajax/9950066600@mail.ru', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                let result = null;
+                try {
+                    result = await response.json();
+                } catch (_) {
+                    result = null;
+                }
+
+                const isSuccess = response.ok && (!result || result.success === true || result.success === 'true');
+                if (!isSuccess) {
+                    throw new Error('FormSubmit rejected request');
+                }
+
+                // Успешная отправка
+                form.reset();
+                if (prefix === 'modal') {
+                    document.getElementById('modal-form-wrap').classList.add('hidden');
+                } else {
+                    form.classList.add('hidden');
+                }
+                successBox.classList.remove('hidden');
+                showToast('Заявка отправлена на 9950066600@mail.ru!');
+            } catch (err) {
+                // Показываем резервный блок mailto, чтобы ни одна заявка не потерялась
+                fallbackBox.classList.remove('hidden');
+                showToast('Воспользуйтесь кнопкой прямой отправки на почту');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalBtnHtml;
+            }
+        }
+
+        function resetFormState(prefix) {
+            const form = document.getElementById(`${prefix}-form`);
+            const successBox = document.getElementById(`${prefix}-success`);
+            const fallbackBox = document.getElementById(`${prefix}-fallback`);
+            const errorEl = document.getElementById(`${prefix}-error`);
+
+            if (prefix === 'modal') {
+                document.getElementById('modal-form-wrap').classList.remove('hidden');
+            } else {
+                form.classList.remove('hidden');
+            }
+            successBox.classList.add('hidden');
+            fallbackBox.classList.add('hidden');
+            errorEl.classList.add('hidden');
+        }
+
+        function hideFallback(prefix) {
+            document.getElementById(`${prefix}-fallback`).classList.add('hidden');
+        }
+
+        document.getElementById('contact-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            submitLeadForm('contact');
+        });
+
+        document.getElementById('modal-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            submitLeadForm('modal');
+        });
+
+
+        /* ============================================================
+           8. УПРАВЛЕНИЕ МОДАЛЬНЫМ ОКНОМ
+           ============================================================ */
+        const callbackModal = document.getElementById('callback-modal');
+        const modalComment = document.getElementById('modal-comment');
+
+        function openCallbackModal(prefillNote = '') {
+            resetFormState('modal');
+            if (prefillNote) {
+                modalComment.value = prefillNote;
+            }
+            callbackModal.classList.remove('hidden');
+            callbackModal.classList.add('flex');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeCallbackModal() {
+            callbackModal.classList.add('hidden');
+            callbackModal.classList.remove('flex');
+            document.body.style.overflow = '';
+        }
+
+        callbackModal.addEventListener('click', (e) => {
+            if (e.target === callbackModal) closeCallbackModal();
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && !callbackModal.classList.contains('hidden')) {
+                closeCallbackModal();
+            }
+        });
+    </script>
+</body>
+</html>
